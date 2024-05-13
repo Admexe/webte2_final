@@ -10,10 +10,24 @@ header, footer {
     padding: 10px;
     background-color: #20232a;
     text-align: center;
+    color: #fff;
 }
 
 main {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    margin-bottom: 20px;
+    background-color: #f3f4f6;
+    color: #333;
+    padding: 15px;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 button {
@@ -28,4 +42,13 @@ button {
 
 button:hover {
     background-color: #407ba7;
+}
+
+h1, h2 {
+    color: #5399c9;
+}
+
+#admin, #help {
+    background-color: #e2e4e9;
+    color: #20232a;
 }

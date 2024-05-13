@@ -26,6 +26,9 @@ body {
     width: 100%;
 }
 
+
+
+
 .logo-container {
     flex: 1;
     display: flex;
@@ -83,13 +86,28 @@ input[type="text"]:focus, input[type="password"]:focus {
     width: 100%;
     padding: 10px;
     border: none;
-    background-color: #c5e9f3;
+    background-color: #0e1011;
     color: #20232a;
     border-radius: 6px;
     cursor: pointer;
 }
 
 .login-button:hover {
+    background-color: #15282d;
+    color: #20232a;
+}
+
+.admin-button{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #c5e9f3;
+    color: #20232a;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.admin-button:hover {
     background-color: #c5e9f3;
     color: #20232a;
 }

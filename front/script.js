@@ -62,40 +62,32 @@ function togglePasswordVisibility() {
     }
 }
 
-// Event listener for form submission
 document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".language-switcher button").forEach(button => {
+        button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
+    });
     const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener('submit', handleFormSubmit);
+});
 
-    loginForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
+function handleFormSubmit(event) {
+    event.preventDefault(); // Предотвратить стандартное поведение формы
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    login(username, password);
+}
 
-        // Example validation: Ensure both fields are not empty
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const credentials = {
-            username: username,
-            password: password
-        };
-        
-       
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', { // URL of your API endpoint
+function login(username, password) {
+    const credentials = { username, password };
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
         if (data.status === 'success') {
-            console.log('Session initialized:', data.session);
-            window.location.href = 'mainPage.html'; 
+            window.location.href = 'mainPage.html';
         } else {
             console.error('Login failed:', data.message);
         }
@@ -103,12 +95,57 @@ document.addEventListener("DOMContentLoaded", function() {
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
     });
+}
 
-    const savedLanguage = localStorage.getItem("selectedLanguage") || 'en'; // Default to English
-    switchLanguage(savedLanguage);
+// !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
 
-    // Set up event listeners for language switch buttons
-    document.querySelectorAll(".language-switcher button").forEach(button => {
-        button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
-    });
-})});
+// // Event listener for form submission 
+// document.addEventListener("DOMContentLoaded", function() {
+//     const loginForm = document.getElementById("loginForm");
+
+//     loginForm.addEventListener('submit', function(event) {
+//         event.preventDefault(); // Prevent the default form submission behavior
+
+//         // Example validation: Ensure both fields are not empty
+//         const username = document.getElementById('username').value;
+//         const password = document.getElementById('password').value;
+//         const credentials = {
+//             username: username,
+//             password: password
+//         };
+        
+       
+//         fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', { // URL of your API endpoint
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(credentials)
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log('Success:', data);
+//         if (data.status === 'success') {
+//             console.log('Session initialized:', data.session);
+//             window.location.href = 'mainPage.html'; 
+//         } else {
+//             console.error('Login failed:', data.message);
+//         }
+//     })
+//     .catch(error => {
+//         console.error('There was a problem with your fetch operation:', error);
+//     });
+
+//     const savedLanguage = localStorage.getItem("selectedLanguage") || 'en'; // Default to English
+//     switchLanguage(savedLanguage);
+
+//     // Set up event listeners for language switch buttons
+//     document.querySelectorAll(".language-switcher button").forEach(button => {
+//         button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
+//     });
+// })});
