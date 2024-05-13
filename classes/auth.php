@@ -36,7 +36,7 @@ class Auth {
             }
             
 
-            /*if ($password === $user['password']) {
+            if ($password === $user['password']) {
 
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user_id'] = $user['id'];
@@ -51,7 +51,7 @@ class Auth {
                     'username' => $user['name'],
                     'role' => $user['role']
                 ];
-            }*/
+            }
             
 
         }
