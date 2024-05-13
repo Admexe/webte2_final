@@ -32,15 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pathParts[3])) {
         case 'login':
             $data = json_decode(file_get_contents('php://input'), true);
             
-            if (isset($data['email']) && isset($data['password'])) {
+            if (isset($data['username']) && isset($data['password'])) {
                 
-                $response = $auth->login($data['email'], $data['password']);
-                echo json_encode($response);
-                
+                $response = $auth->login($data['username'], $data['password']);
                 if ($response['status'] == 'success') {
                     $_SESSION['logged_in'] = true;
                     $_SESSION['user_id'] = $response['user_id'];  // Assuming the login method returns user ID
-                    echo json_encode(['status' => 'success', 'message' => 'Logged in successfully']);
+                    $_SESSION['username'] = $response['username'];
+                    $_SESSION['role'] = $response['role'];
+                    
+                    // Add a session confirmation message to the response
+                    $response['session'] = 'Session initialized successfully.';
+                    header('Content-Type: application/json'); // Ensure the content type is set to application/json
+                    echo json_encode($response); // Output the response as JSON
+                    exit(); // Ensure no further output can corrupt the JSON response
                 }
             }
             else{
