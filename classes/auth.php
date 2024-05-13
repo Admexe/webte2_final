@@ -17,13 +17,26 @@ class Auth {
        
         if ($user) {
             // Verify the password (assuming passwords are hashed in the database)
-            /*if (password_verify($password, $user['password'])) {
-                $_SESSION['logged_in'] = true; // Start the session and set a logged_in flag.
-                return ['status' => 'success', 'message' => 'Logged in successfully.'];
-            }*/
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['name']; // Optional: store other details in session
+                $_SESSION['role'] = $user['role']; // Optional: store role if needed for permissions
+                
+                // Return user data as part of the login success message
+                return [
+                    'status' => 'success',
+                    'message' => 'Logged in successfully.',
+                    'user_id' => $user['id'],
+                    'username' => $user['name'],
+                    'role' => $user['role']
+                ];
+            
+            
+            }
             
 
-            if ($password === $user['password']) {
+            /*if ($password === $user['password']) {
 
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user_id'] = $user['id'];
@@ -38,7 +51,7 @@ class Auth {
                     'username' => $user['name'],
                     'role' => $user['role']
                 ];
-            }
+            }*/
             
 
         }
