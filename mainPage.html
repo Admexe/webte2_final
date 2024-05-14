@@ -4,27 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mainPage.css">
 </head>
 <body>
     <header>
         <h1>Online Voting System</h1>
-        <nav>
-            <button id="enBtn">English</button>
-            <button id="skBtn">Slovenčina</button>
-        </nav>
+        
     </header>
     <main>
+        <div class="language-switcher">
+            <button data-lang="en">EN</button>
+            <button data-lang="sk">SK</button>
+        </div>
         <section id="polls">
             <h2>Current Polls</h2>
         </section>
         <section id="results">
             <h2>Results</h2>
         </section>
+        <section id="userGuide">
+            <h2>User Guide</h2>
+            <button class="info-toggle" onclick="toggleInfoPanel()">ℹ️</button>
+            <div class="user-guide-panel" id="guidePanel">
+                <!-- Content will be dynamically generated -->
+                <button id="closePanelButton" class="close-panel-button" onclick="toggleInfoPanel()">❌</button>
+            </div>
+        </section>
     </main>
     <footer>
         <p>© 2024 Online Voting System. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
+    <script src="mainPage.js"></script>
 </body>
 </html>

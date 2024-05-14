@@ -76,39 +76,41 @@ document.addEventListener("DOMContentLoaded", function() {
             username: username,
             password: password
         };
-        
-       
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', { // URL of your API endpoint
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Success:', data);
-        if (data.status === 'success') {
-            console.log('Session initialized:', data.session);
-            window.location.href = 'mainPage.html'; 
-        } else {
-            console.error('Login failed:', data.message);
-        }
-    })
-    .catch(error => {
-        console.error('There was a problem with your fetch operation:', error);
-    });
 
-    const savedLanguage = localStorage.getItem("selectedLanguage") || 'en'; // Default to English
-    switchLanguage(savedLanguage);
+        fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', { // URL of your API endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            if (data.status === 'success') {
+                console.log('Session initialized:', data.session);
+                window.location.href = 'mainPage.html'; 
+            } else {
+                console.error('Login failed:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
+    });
 
     // Set up event listeners for language switch buttons
     document.querySelectorAll(".language-switcher button").forEach(button => {
         button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
     });
-})});
+
+    // Load saved language or default to English
+    const savedLanguage = localStorage.getItem("selectedLanguage") || 'en';
+    switchLanguage(savedLanguage);
+});
+
