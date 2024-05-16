@@ -117,11 +117,14 @@ switch ($method) {
     
             if ($stmt->execute($params)) {
                 http_response_code(200); // OK
+                echo json_encode(['status' => 'success', 'message' => 'User updated successfully']);
             } else {
                 http_response_code(500); // Internal Server Error
+                echo json_encode(['status' => 'error', 'message' => 'Update failed']);
             }
         } else {
             http_response_code(400); // Bad Request
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
         }
         break;
     case 'DELETE':
