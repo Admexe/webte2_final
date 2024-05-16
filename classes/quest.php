@@ -63,5 +63,18 @@ class QuestionHandler {
 
         return $code;
     }
+
+    public function updateQuestionStatus($question_id, $status) {
+        $stmt = $this->pdo->prepare("UPDATE Questions SET status = :status WHERE id = :question_id");
+        $stmt->execute(['status' => $status, 'question_id' => $question_id]);
+        
+        if ($stmt->rowCount() > 0) {
+            return ['status' => 'success', 'message' => 'Question status updated successfully.'];
+        } else {
+            return ['status' => 'error', 'message' => 'Failed to update question status.'];
+        }
+    }
+    
+
 }
 ?>
