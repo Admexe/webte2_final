@@ -82,6 +82,20 @@ section h2 {
 form {
     color: #fff;
 }
+.logo-container {
+    width: 50%;         /* Logo takes up to 50% of its parent's width */
+    max-width: 200px;   /* Maximum size of the logo */
+    height: auto;       /* Height adjusts based on the width to maintain aspect ratio */
+    margin: 20px auto;  /* Adds top and bottom margin while centering horizontally */
+    display: flex;      /* Uses flexbox to center content */
+    justify-content: center; /* Center horizontally inside the container */
+    align-items: center; /* Center vertically inside the container */
+}
+
+.logo-container img {
+    width: 100%;        /* Make the image fill the container */
+    height: auto;       /* Maintain aspect ratio */
+}
 
 input[type="text"], input[type="email"], input[type="password"] {
     width: 100%;
