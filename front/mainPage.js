@@ -34,6 +34,35 @@ function generateUserGuideContent() {
     return content;
 }
 
+
+document.getElementById('logout').addEventListener('click', function() {
+    // Define the URL for the logout endpoint
+    const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
+
+    // Make the POST request
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Successfully logged out, handle any UI changes
+            alert('Logout successful!');
+            // Optionally redirect to the login page or home page
+            window.location.href = 'index.html'; // Adjust the URL as needed
+        } else {
+            // Handle error
+            alert('Logout failed: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error during logout:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
 /*document.addEventListener('DOMContentLoaded', async function() {
     try {
         const response = await fetch('path/to/your/check_role_and_get_data.php', {

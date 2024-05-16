@@ -60,8 +60,9 @@ class Auth {
     }
 
     public function logout() {
-        // Destroy the session to log the user out.
-        session_destroy();
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
         return ['status' => 'success', 'message' => 'Logged out successfully.'];
     }
 }
