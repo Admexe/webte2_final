@@ -66,6 +66,8 @@ switch ($method) {
             // Validate input
             if (empty($name) || empty($email) || empty($password)) {
                 http_response_code(400); // Bad Request
+                echo json_encode(['status' => 'error', 'message' => 'Invalid input']);
+
                 break;
             }
 
@@ -74,8 +76,11 @@ switch ($method) {
             $stmt = $pdo->prepare($sql);
             if ($stmt->execute(['name' => $name, 'email' => $email, 'password' => $password, 'role' => $role])) {
                 http_response_code(201); // Created
+                echo json_encode(['status' => 'success', 'message' => 'User registered successfully']);
             } else {
                 http_response_code(500); // Internal Server Error
+                echo json_encode(['status' => 'error', 'message' => 'Registration failed']);
+
             }
         } else {
             http_response_code(400); // Bad Request

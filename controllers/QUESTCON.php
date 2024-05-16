@@ -50,7 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
         echo json_encode(['status' => 'error', 'message' => 'Text and Subject ID are required']);
     }
 
-} else {
+} elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 5)) {
+    $question_id = $pathParts[3];
+    $status = $pathParts[4]; // Získaj status z URL
+    $data = json_decode(file_get_contents('php://input'), true);
+    
+    // Kontrola, či bol zadaný platný status
+    if ($status !== '0' && $status !== '1') {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid status value.']);
+        exit;
+    }
+
+    // Aktualizuj stav otázky
+    $response = $questionHandler->updateQuestionStatus($question_id, $status);
+    echo json_encode($response);}
+    else {
     header("HTTP/1.1 404 Not Found");
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
 }
