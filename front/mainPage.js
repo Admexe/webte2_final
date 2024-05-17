@@ -1,38 +1,65 @@
-function toggleInfoPanel() {
-    var panel = document.getElementById('guidePanel');
-    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+document.addEventListener('DOMContentLoaded', function() {
+    const userType = getUserType(); // Function to get the user type (e.g., from server or cookies)
+
+    if (userType === 'user') {
+        document.getElementById('current-votes').classList.remove('hidden');
+        document.getElementById('past-votes').classList.remove('hidden');
+        document.getElementById('profile').classList.remove('hidden');
+    } else if (userType === 'admin') {
+        document.getElementById('current-votes').classList.remove('hidden');
+        document.getElementById('past-votes').classList.remove('hidden');
+        document.getElementById('profile').classList.remove('hidden');
+        document.getElementById('admin').classList.remove('hidden');
+        document.getElementById('admin-link').classList.remove('hidden');
+    }
+});
+
+function getUserType() {
+    // Logic to determine the user type, e.g., from server or cookies
+    // For demonstration, returning 'user' or 'admin'
+    return 'user'; // Change to 'admin' to test admin functionality
+}
+
+function logout() {
+    // Logic for logging out the user
 }
 
 
-const userRoles = {
-    "neprihlasenyPouzivatel": {
-        "name": "Neprihlásený používateľ",
-        "description": "Podrobný popis pre neprihlásených používateľov."
-    },
-    "prihlasenyPouzivatel": {
-        "name": "Prihlásený používateľ",
-        "description": "Podrobný popis pre prihlásených používateľov."
-    },
-    "administrator": {
-        "name": "Administrátor",
-        "description": "Podrobný popis pre administrátorov."
-    }
-};
+// function toggleInfoPanel() {
+//     var panel = document.getElementById('guidePanel');
+//     panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+// }
 
-function generateUserGuideContent() {
-    let content = '';
-    for (const role in userRoles) {
-        const roleName = userRoles[role].name;
-        const roleDescription = userRoles[role].description;
-        content += `
-            <div class="user-role">
-                <h3>${roleName}</h3>
-                <p>${roleDescription}</p>
-            </div>
-        `;
-    }
-    return content;
-}
+
+// const userRoles = {
+//     "neprihlasenyPouzivatel": {
+//         "name": "Neprihlásený používateľ",
+//         "description": "Podrobný popis pre neprihlásených používateľov."
+//     },
+//     "prihlasenyPouzivatel": {
+//         "name": "Prihlásený používateľ",
+//         "description": "Podrobný popis pre prihlásených používateľov."
+//     },
+//     "administrator": {
+//         "name": "Administrátor",
+//         "description": "Podrobný popis pre administrátorov."
+//     }
+// };
+
+// function generateUserGuideContent() {
+//     let content = '';
+//     for (const role in userRoles) {
+//         const roleName = userRoles[role].name;
+//         const roleDescription = userRoles[role].description;
+//         content += `
+//             <div class="user-role">
+//                 <h3>${roleName}</h3>
+//                 <p>${roleDescription}</p>
+//             </div>
+//         `;
+//     }
+//     return content;
+// }
 
 /*document.addEventListener('DOMContentLoaded', async function() {
     try {

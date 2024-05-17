@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Online Voting System</title>
+    <title>Main Page - Online Voting System</title>
     <link rel="stylesheet" href="mainPage.css">
 </head>
 <body>
@@ -11,63 +11,70 @@
         <div class="logo-container">
             <img src="logo1.webp" alt="Voting System Logo" id="logo">
         </div>
-        
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="#current-votes">Current Votes</a></li>
                 <li><a href="#past-votes">Past Votes</a></li>
                 <li><a href="#profile">Profile</a></li>
+                <li id="admin-link" class="hidden"><a href="#admin">Admin Panel</a></li>
             </ul>
         </nav>
-        <button onclick="logout()">Logout</button>
+        <a href="index.html" class="logout-button">Logout</a>
+
+
     </header>
     <main>
-        <section id="current-votes">
-            <h2>Current Voting Sessions</h2>
-            <div class="votes-list">
-                <!-- Voting sessions will be dynamically filled here -->
-                <p>Sample voting session 1</p>
-                <p>Sample voting session 2</p>
-            </div>
-        </section>
-        <section id="past-votes">
-            <h2>Past Voting Results</h2>
-            <div class="votes-results">
-                <!-- Past voting results will be shown here -->
-                <p>Result of past vote 1</p>
-                <p>Result of past vote 2</p>
-            </div>
-        </section>
-        <div class="language-switcher">
-            <button data-lang="en">EN</button>
-            <button data-lang="sk">SK</button>
+        <div class="content-container">
+            <section id="current-votes" class="hidden">
+                <h2>Current Voting Sessions</h2>
+                <div class="votes-list">
+                    <!-- Voting sessions will be dynamically filled here -->
+                    <p>Sample voting session 1</p>
+                    <p>Sample voting session 2</p>
+                </div>
+            </section>
+            <section id="past-votes" class="hidden">
+                <h2>Past Voting Results</h2>
+                <div class="votes-results">
+                    <!-- Past voting results will be shown here -->
+                    <p>Result of past vote 1</p>
+                    <p>Result of past vote 2</p>
+                </div>
+            </section>
+            <section id="profile" class="hidden">
+                <h2>Your Profile</h2>
+                <form id="profile-form">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" disabled value="User123">
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="user@example.com">
+                    
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password">
+                    
+                    <button type="submit">Update Profile</button>
+                </form>
+            </section>
+
+            <section id="admin" class="hidden">
+                <h2>Admin Panel</h2>
+                <ul>
+                    <li><a href="#">Manage Users</a></li>
+                    <li><a href="#">Create Voting Question</a></li>
+                    <li><a href="#">View All Voting Sessions</a></li>
+                </ul>
+            </section>
         </div>
-        <section id="polls">
-            <h2>Current Polls</h2>
-        </section>
-        <section id="results">
-            <h2>Results</h2>
-        </section>
-        <section id="profile">
-            <h2>Your Profile</h2>
-            <form id="profile-form">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" disabled value="User123">
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="user@example.com">
-                
-                <label for="new-password">New Password:</label>
-                <input type="password" id="new-password" name="new-password">
-                
-                <button type="submit">Update Profile</button>
-            </form>
-        </section>
     </main>
     <footer>
         <p>&copy; 2024 Online Voting System. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
-    <script src="mainPage.js"></script>
+    <div class="language-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="sk">SK</button>
+    </div>
+    <script src="mainPage.js" defer></script>
+    
 </body>
 </html>
