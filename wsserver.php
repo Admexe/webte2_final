@@ -1,40 +1,33 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        header("Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS");
-    
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-    
-    exit(0);
-}
-
-
 use Workerman\Worker;
 use Workerman\Connection\TcpConnection;
 
-$ws_worker = new Worker("websocket://0.0.0.0:8080");
+// Create a WebSocket server listening on 0.0.0.0:8282
+$ws_worker = new Worker("websocket://0.0.0.0:8282");
 
-$ws_worker->onConnect = function (TcpConnection $connection) {
+// Set the number of processes to 5
+$ws_worker->count = 5;
+
+// Define behavior when a new connection is established
+$ws_worker->onConnect = function($connection) {
     echo "New connection\n";
+    $uuid = uniqid();
+    $connection->send(json_encode(["uuid" => $uuid]));
 };
 
-$ws_worker->onMessage = function (TcpConnection $connection, $data) use ($ws_worker) {
+// Define behavior when a message is received
+$ws_worker->onMessage = function(TcpConnection $connection, $data) use ($ws_worker) {
     foreach ($ws_worker->connections as $client_connection) {
         $client_connection->send($data);
     }
 };
 
-$ws_worker->onClose = function (TcpConnection $connection) {
+// Define behavior when a connection is closed
+$ws_worker->onClose = function(TcpConnection $connection) {
     echo "Connection closed\n";
 };
 
+// Run all workers
 Worker::runAll();
