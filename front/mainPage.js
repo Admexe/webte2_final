@@ -61,63 +61,122 @@ function logout() {
 //     return content;
 // }
 
-/*document.addEventListener('DOMContentLoaded', async function() {
-    try {
-        const response = await fetch('path/to/your/check_role_and_get_data.php', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
 
-        if (response.ok) {
-            const data = await response.json();
-            document.getElementById('role').textContent = `Role: ${data.role}`;
-            document.getElementById('name').value = data.name;
-            document.getElementById('email').value = data.email;
+document.getElementById('logout').addEventListener('click', function() {
+    // Define the URL for the logout endpoint
+    const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
+
+    // Make the POST request
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Successfully logged out, handle any UI changes
+            alert('Logout successful!');
+            // Optionally redirect to the login page or home page
+            window.location.href = 'index.html'; // Adjust the URL as needed
         } else {
-            console.error('Failed to fetch user data');
+            // Handle error
+            alert('Logout failed: ' + data.message);
         }
-    } catch (error) {
-        console.error('Fetch error:', error);
-    }
-
-    const profileForm = document.getElementById('profileForm');
-    profileForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-
-        const payload = {
-            name: name,
-            email: email
-        };
-
-        try {
-            const response = await fetch('path/to/your/update_profile.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                alert(result.message);
-            } else {
-                alert('Failed to update profile');
-            }
-        } catch (error) {
-            console.error('Fetch error:', error);
-            alert('An error occurred. Please try again.');
-        }
+    })
+    .catch(error => {
+        console.error('Error during logout:', error);
+        alert('An error occurred. Please try again.');
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch user ID from session
+    let userId = null;
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Include credentials for CORS
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            userId = data.user_id;
+            fetchUserInfo(userId);
+        } else {
+            alert('Error fetching user ID: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
 
-function getUser(){
+    // Function to fetch user info using user ID
+    function fetchUserInfo(userId) {
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include' // Include credentials for CORS
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                document.getElementById('username').value = data.name;
+                document.getElementById('email').value = data.email;
+            } else {
+                alert('Error fetching user info.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
 
+    // Handle form submission for updating user info
+    document.getElementById('profile-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const name = document.getElementById('username').value;
+        const password = document.getElementById('new-password').value;
 
+        const updateData = { email, name };
+        if (password) {
+            updateData.password = password;
+        }
 
-}*/
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include', // Include credentials for CORS
+            body: JSON.stringify(updateData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('User info updated successfully!');
+                // Optionally update the displayed user info
+                document.getElementById('username').value = name;
+                document.getElementById('email').value = email;
+                document.getElementById('new-password').value = '';
+                location.reload();
+            } else {
+                alert('Error updating user info: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+});
+

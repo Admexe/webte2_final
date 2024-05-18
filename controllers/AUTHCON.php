@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once '../classes/auth.php'; // Ensure this path correctly points to the Auth class file.
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -57,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pathParts[3])) {
 
         case 'logout':
             $response = $auth->logout();
+            header('Content-Type: application/json');
             echo json_encode($response);
             break;
 
