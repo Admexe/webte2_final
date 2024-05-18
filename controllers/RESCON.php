@@ -33,6 +33,48 @@ $responseHandler = new ResponseHandler();
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);  
 $pathParts = explode("/", $path);
 
+// Function to send WebSocket message
+function sendWebSocketMessage($question_id, $response_text) {
+    $ws_message = json_encode([
+        'action' => 'new_response',
+        'question_id' => $question_id,
+        'response' => $response_text
+    ]);
+
+    // Send WebSocket notification
+    $client = stream_socket_client('tcp://127.0.0.1:2346');
+    fwrite($client, $ws_message);
+    fclose($client);
+}
+
+// Function to handle WebSocket messages
+function handleWebSocketMessages() {
+    $ws = new WebSocket\Client('wss://node126.webte.fei.stuba.sk:2346/wss');
+
+    $ws->on('message', function ($data) use ($responseHandler) {
+        $message = json_decode($data, true);
+        if ($message['action'] === 'new_response') {
+            // Insert new response into the database
+            $question_id = $message['question_id'];
+            $response_text = $message['response'];
+            $result = $responseHandler->createResponse($question_id, $response_text);
+            if ($result['status'] === 'success') {
+                // Handle successful response insertion
+            } else {
+                // Handle failed response insertion
+            }
+        }
+    });
+
+    $ws->run();
+}
+
+// Run WebSocket message handling in the background
+if (php_sapi_name() === 'cli') {
+    handleWebSocketMessages();
+}
+
+
 
 switch ($method) {
     case 'GET':
@@ -81,6 +123,9 @@ switch ($method) {
             $result = $responseHandler->createResponse($question_id, $text, $votes);
             if ($result['status'] === 'success') {
                 http_response_code(201); // Created
+                
+                sendWebSocketMessage($question_id, $text); // Send WebSocket notification
+                
             } else {
                 http_response_code(500); // Internal Server Error
             }
