@@ -93,7 +93,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .login-button:hover {
-    background-color: #15282d;
+    background-color: #4c7986;
     color: #20232a;
 }
 
