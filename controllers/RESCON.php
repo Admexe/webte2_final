@@ -49,7 +49,7 @@ function sendWebSocketMessage($question_id, $response_text) {
 
 // Function to handle WebSocket messages
 function handleWebSocketMessages() {
-    $ws = new WebSocket\Client('wss://node126.webte.fei.stuba.sk:2346/wss');
+    $ws = new WebSocket\Client('wss://node95.webte.fei.stuba.sk:2346/wss');
 
     $ws->on('message', function ($data) use ($responseHandler) {
         $message = json_decode($data, true);

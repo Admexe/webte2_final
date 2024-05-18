@@ -30,7 +30,7 @@
         document.getElementById('submit-code').addEventListener('click', function () {
             const questionCode = document.getElementById('question-code').value;
             
-            fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+            fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
                 .then(response => response.json())
                 .then(question => {
                     document.getElementById('question-text').textContent = question.question.text;
@@ -41,7 +41,7 @@
                     status = question.question.status; // Assign status
 
                     // Fetch initial responses
-                    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                    fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
                         .then(response => response.json())
                         .then(responses => {
                             const responseList = document.getElementById('response-list');
@@ -57,7 +57,7 @@
                         });
 
                     // Initialize WebSocket connection
-                    ws = new WebSocket(`wss://node126.webte.fei.stuba.sk/wss`);
+                    ws = new WebSocket(`wss://node95.webte.fei.stuba.sk/wss`);
                     
                     ws.onopen = function() {
                         console.log('WebSocket connection established');
@@ -95,7 +95,7 @@
 
             if (status === 1) { // Use status variable
                 // If the question is active, proceed with saving the response
-                fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+                fetch('https://node95.webte.fei.stuba.sk/webte_final/response', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
