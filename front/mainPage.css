@@ -1,14 +1,14 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to right, #d1e4f3, #5399c9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
 }
+
 .language-switcher {
     position: absolute;
     top: 10px;
@@ -28,6 +28,7 @@ body {
 .language-switcher button:hover {
     background-color: #407ba7;
 }
+
 header {
     width: 100%;
     background-color: #20232a;
@@ -36,12 +37,17 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
 nav ul {
     list-style: none;
     display: flex;
+    padding: 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -54,19 +60,46 @@ nav ul li a {
     font-size: 16px;
 }
 
+.logout-button {
+    padding: 10px 15px;
+    background-color: #5399c9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: auto;
+    margin-right: 4%;
+}
+
+.logout-button:hover {
+    background-color: #407ba7;
+}
 main {
     flex: 1;
+    width: 100%;
+    padding: 20px;
+    margin-top: 60px; /* Adjusted margin-top for reduced header height */
+    display: flex;
+    justify-content: center; /* Center the main content */
+}
+
+.content-container {
     width: 90%;
     max-width: 960px;
-    padding: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     background: #20232a;
     border-radius: 10px;
-    margin: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 section {
     margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
 }
 
 section h2 {
@@ -77,28 +110,33 @@ section h2 {
     background: #283142;
     padding: 10px;
     border-radius: 6px;
+    margin: 10px 0;
 }
 
 form {
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
+
 .logo-container {
-    width: 50%;         /* Logo takes up to 50% of its parent's width */
-    max-width: 200px;   /* Maximum size of the logo */
-    height: auto;       /* Height adjusts based on the width to maintain aspect ratio */
-    margin: 20px auto;  /* Adds top and bottom margin while centering horizontally */
+    max-width: 70px;   /* Reduced size of the logo container */
+    height: 100%;      /* Adjust height to fill the header */
     display: flex;      /* Uses flexbox to center content */
     justify-content: center; /* Center horizontally inside the container */
     align-items: center; /* Center vertically inside the container */
+    margin-left: 3%;
 }
 
 .logo-container img {
-    width: 100%;        /* Make the image fill the container */
+    width: 130%;
     height: auto;       /* Maintain aspect ratio */
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     margin-top: 5px;
     border-radius: 6px;
@@ -114,7 +152,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 button {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     border: none;
     background-color: #5399c9;
@@ -139,52 +177,6 @@ footer {
     bottom: 0;
 }
 
-.user-role {
-    margin-bottom: 20px;
-}
-
-.info-content {
+.hidden {
     display: none;
-    margin-left: 20px;
-}
-
-.user-guide-panel {
-    display: none;
-    width: 400px;
-    height: 600px;
-    background-color: #20232a;
-    border-color: #d1e4f3;
-    border-width: 2px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
-}
-
-.close-panel-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    background-color:#20232a;
-    border: none;
-    font-size: 20px;
-    
-}
-
-.close-panel-button:hover {
-    color: #ff3333;
-}
-
-
-
-.info-toggle {
-    cursor: pointer;
-    border: none;
-  
-    font-size: 20px;
-    background-color:#3773a1;
 }
