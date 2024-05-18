@@ -153,3 +153,48 @@ input[type="text"]:focus, input[type="password"]:focus {
 .language-switcher button:hover {
     background-color: #407ba7;
 }
+
+input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #c5e9f3;
+    background-color: transparent;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+input[type="email"]:focus {
+    outline: none;
+    border-color: #c5e9f3;
+    box-shadow: 0 0 8px #c5e9f3;
+}
+
+
+.login-button {
+    width: calc(100% );
+    padding: 10px;
+    border: none;
+    background-color: #c5e9f3;
+    color: #20232a;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #15282d;
+    color: #20232a;
+}
+
+
+.back-to-login {
+    display: block;
+    text-align: center;
+    color: #c5e9f3;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.back-to-login:hover {
+    text-decoration: underline;
+}
