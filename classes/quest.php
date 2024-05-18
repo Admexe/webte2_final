@@ -1,13 +1,31 @@
 <?php
 require_once '../config.php';  
 
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS");
+    
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    
+    exit(0);
+}
+
+
 class QuestionHandler {
-    
     private $pdo;
-    
+    private $webSocketServer;
+
     public function __construct() {
         global $pdo;
-        $this->pdo = $pdo;  
+        $this->pdo = $pdo;
+        $this->webSocketServer = 'wss://node126.webte.fei.stuba.sk:2346'; // Replace with your WebSocket server URL
     }
     
     public function createQuestion($user_id, $subject_id, $text) {
@@ -16,7 +34,6 @@ class QuestionHandler {
         $stmt->execute(['user_id' => $user_id, 'subject_id' => $subject_id, 'text' => $text, 'code' => $code]);
         
         if ($stmt->rowCount() > 0) {
-            // Optionally, store question ID in session here
             return ['status' => 'success', 'message' => 'Question created successfully.', 'code' => $code];
         } else {
             return ['status' => 'error', 'message' => 'Failed to create question.'];
@@ -48,13 +65,11 @@ class QuestionHandler {
     }
 
     private function generateUniqueCode() {
-        $code = mt_rand(10000, 99999); // Generuje 5-miestne náhodné číslo
-        // Skontrolujeme, či je kód jedinečný v tabuľke
+        $code = mt_rand(10000, 99999); 
         $stmt = $this->pdo->prepare("SELECT code FROM Questions WHERE code = :code");
         $stmt->execute(['code' => $code]);
         $existing_code = $stmt->fetchColumn();
 
-        // Ak je kód už použitý, generujeme nový, kým nenájdeme jedinečný kód
         while ($existing_code) {
             $code = mt_rand(10000, 99999);
             $stmt->execute(['code' => $code]);
@@ -75,6 +90,17 @@ class QuestionHandler {
         }
     }
     
-
+    public function getQuestionByCode($question_code) {
+        $stmt = $this->pdo->prepare("SELECT * FROM Questions WHERE code = :question_code");
+        $stmt->execute(['question_code' => $question_code]);
+        
+        $question = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($question) {
+            return ['status' => 'success', 'question' => $question];
+        } else {
+            return ['status' => 'error', 'message' => 'Question not found.'];
+        }
+    }
 }
 ?>
