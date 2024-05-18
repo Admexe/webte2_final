@@ -23,11 +23,9 @@
     </div>
 
     <script>
-    
-
         let questionId;
         let ws;
-        let status; // Definujeme premennú status mimo event listenera
+        let status; // Define status variable outside the event listener
         
         document.getElementById('submit-code').addEventListener('click', function () {
             const questionCode = document.getElementById('question-code').value;
@@ -40,7 +38,7 @@
                     document.getElementById('responses-container').style.display = 'block';
 
                     questionId = question.question.id;
-                    status = question.question.status; // Priradíme status
+                    status = question.question.status; // Assign status
 
                     // Fetch initial responses
                     fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
@@ -59,7 +57,7 @@
                         });
 
                     // Initialize WebSocket connection
-                    ws = new WebSocket(`ws://node126.webte.fei.stuba.sk:8080`);
+                    ws = new WebSocket(`wss://node126.webte.fei.stuba.sk/wss`);
                     
                     ws.onopen = function() {
                         console.log('WebSocket connection established');
@@ -95,7 +93,7 @@
                 return;
             }
 
-            if (status === 1) { // Použijeme premennú status
+            if (status === 1) { // Use status variable
                 // If the question is active, proceed with saving the response
                 fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
                     method: 'POST',
