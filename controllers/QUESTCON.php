@@ -1,16 +1,14 @@
 <?php
-require_once '../classes/quest.php'; // Uistite sa, že tento súbor správne ukazuje na triedu pre manipuláciu s otázkami.
+require_once '../classes/quest.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Handle CORS requests
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
     header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');    // Cache for 1 day
+    header('Access-Control-Max-Age: 86400');
 }
 
-// Handle OPTIONS requests for CORS preflight
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
         header("Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS");
@@ -21,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-// Extract the action from the path
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);  
 $pathParts = explode("/", $path);
 $questionHandler = new QuestionHandler();
@@ -36,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
         echo json_encode(['status' => 'error', 'message' => 'User ID, Subject ID, and Text of the question are required']);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && (count($pathParts) === 4)) {
-    $question_id = $pathParts[3];
-    $response = $questionHandler->getQuestionById($question_id);
+    $question_code = $pathParts[3];
+    $response = $questionHandler->getQuestionByCode($question_code);
     echo json_encode($response);
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 4)) {
     $question_id = $pathParts[3];
     $data = json_decode(file_get_contents('php://input'), true);
@@ -49,22 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Text and Subject ID are required']);
     }
-
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 5)) {
     $question_id = $pathParts[3];
-    $status = $pathParts[4]; // Získaj status z URL
+    $status = $pathParts[4];
     $data = json_decode(file_get_contents('php://input'), true);
     
-    // Kontrola, či bol zadaný platný status
     if ($status !== '0' && $status !== '1') {
         echo json_encode(['status' => 'error', 'message' => 'Invalid status value.']);
         exit;
     }
 
-    // Aktualizuj stav otázky
     $response = $questionHandler->updateQuestionStatus($question_id, $status);
-    echo json_encode($response);}
-    else {
+    echo json_encode($response);
+} else {
     header("HTTP/1.1 404 Not Found");
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
 }

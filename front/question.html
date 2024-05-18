@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Page</title>
+</head>
+<body>
+    <div>
+        <label for="question-code">Enter Question Code:</label>
+        <input type="text" id="question-code" name="question-code">
+        <button id="submit-code">Submit</button>
+    </div>
+    <div id="question-container" style="display: none;">
+        <h1>Question:</h1>
+        <p id="question-text"></p>
+        <textarea id="response-text" placeholder="Type your response here..."></textarea>
+        <button id="submit-response">Submit Response</button>
+    </div>
+    <div id="responses-container" style="display: none;">
+        <h2>Responses:</h2>
+        <ul id="response-list"></ul>
+    </div>
+
+    <script>
+    
+
+        let questionId;
+        let ws;
+        let status; // Definujeme premennú status mimo event listenera
+        
+        document.getElementById('submit-code').addEventListener('click', function () {
+            const questionCode = document.getElementById('question-code').value;
+            
+            fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+                .then(response => response.json())
+                .then(question => {
+                    document.getElementById('question-text').textContent = question.question.text;
+                    document.getElementById('question-container').style.display = 'block';
+                    document.getElementById('responses-container').style.display = 'block';
+
+                    questionId = question.question.id;
+                    status = question.question.status; // Priradíme status
+
+                    // Fetch initial responses
+                    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                        .then(response => response.json())
+                        .then(responses => {
+                            const responseList = document.getElementById('response-list');
+                            responseList.innerHTML = '';
+                            responses.forEach(response => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = response.text;
+                                responseList.appendChild(listItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching responses:', error);
+                        });
+
+                    // Initialize WebSocket connection
+                    ws = new WebSocket(`ws://node126.webte.fei.stuba.sk:8080`);
+                    
+                    ws.onopen = function() {
+                        console.log('WebSocket connection established');
+                    };
+
+                    ws.onerror = function(error) {
+                        console.error('WebSocket error:', error);
+                    };
+
+                    ws.onmessage = function(event) {
+                        const message = JSON.parse(event.data);
+                        if (message.action === 'new_response' && message.question_id === questionId) {
+                            const responseList = document.getElementById('response-list');
+                            const listItem = document.createElement('li');
+                            listItem.textContent = message.response;
+                            responseList.appendChild(listItem);
+                        }
+                    };
+
+                })
+                .catch(error => {
+                    console.error('Error fetching question:', error);
+                    alert('Question not found. Please enter a valid question code.');
+                });
+        });
+
+        document.getElementById('submit-response').addEventListener('click', function () {
+            const responseText = document.getElementById('response-text').value;
+
+            if (!questionId) {
+                console.error('Question ID not available');
+                alert('Question ID not available. Please enter a valid question code first.');
+                return;
+            }
+
+            if (status === 1) { // Použijeme premennú status
+                // If the question is active, proceed with saving the response
+                fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: questionId,
+                        text: responseText,
+                        votes: 1
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Response submitted successfully');
+                        document.getElementById('response-text').value = '';
+                        ws.send(JSON.stringify({
+                            action: 'new_response',
+                            question_id: questionId,
+                            response: responseText
+                        }));
+                    } else {
+                        throw new Error('Failed to submit response');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting response:', error);
+                });
+            } else {
+                // If the question is not active, display an alert
+                alert('This question is not active. Response cannot be submitted.');
+            }
+        });
+    </script>
+</body>
+</html>
