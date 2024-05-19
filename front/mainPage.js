@@ -20,9 +20,7 @@ function getUserType() {
     return 'user'; // Change to 'admin' to test admin functionality
 }
 
-function logout() {
-    // Logic for logging out the user
-}
+
 
 
 // function toggleInfoPanel() {
@@ -99,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headers: {
             'Content-Type': 'application/json'
         },
-        credentials: 'include' // Include credentials for CORS
+        credentials: 'include' 
     })
     .then(response => response.json())
     .then(data => {

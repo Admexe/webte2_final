@@ -43,9 +43,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (responseTypeValue === 'custom') {
             const customAnswers = customAnswersContainer.querySelectorAll('input[type="text"]');
+            let allAnswersFilled = true;
             customAnswers.forEach(answerInput => {
-                requestData.customAnswers.push(answerInput.value.trim());
+                if (!answerInput.value.trim()) {
+                    allAnswersFilled = false;
+                } else {
+                    requestData.customAnswers.push(answerInput.value.trim());
+                }
             });
+
+            if (customAnswers.length === 0 || !allAnswersFilled) {
+                alert('Please fill in all custom answers before submitting the form.');
+                return; // Прекращаем выполнение функции submit
+            }
         }
 
         fetch('https://node95.webte.fei.stuba.sk/webte_final/question', {
@@ -92,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 'custom_answers_label': 'Custom Answers:',
                 'add_answer': 'Add Answer',
                 'question_submitted_successfully': 'Question submitted successfully',
-                'failed_to_submit_question': 'Failed to submit question'
+                'failed_to_submit_question': 'Failed to submit question',
+                'fill_all_custom_answers': 'Please fill in all custom answers before submitting the form.'
             },
             'sk': {
                 'create_question': 'Vytvoriť otázku',
@@ -104,7 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 'custom_answers_label': 'Vlastné odpovede:',
                 'add_answer': 'Pridať odpoveď',
                 'question_submitted_successfully': 'Otázka bola úspešne odoslaná',
-                'failed_to_submit_question': 'Odoslanie otázky zlyhalo'
+                'failed_to_submit_question': 'Odoslanie otázky zlyhalo',
+                'fill_all_custom_answers': 'Vyplňte všetky vlastné odpovede pred odoslaním formulára.'
             }
         };
 
@@ -117,4 +129,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     changeLanguage('en'); // Set default language to English
+
+    // Скрытие custom-answers-group при загрузке страницы
+    if (responseType.value === 'custom') {
+        customAnswersGroup.style.display = 'flex';
+    } else {
+        customAnswersGroup.style.display = 'none';
+    }
 });

@@ -43,10 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pathParts[3])) {
                     $_SESSION['username'] = $response['username'];
                     $_SESSION['role'] = $response['role'];
                     
+                    
                     // Add a session confirmation message to the response
                     $response['session'] = 'Session initialized successfully.';
                     header('Content-Type: application/json'); // Ensure the content type is set to application/json
                     echo json_encode($response); // Output the response as JSON
+                    
                     exit(); // Ensure no further output can corrupt the JSON response
                 }
             }
