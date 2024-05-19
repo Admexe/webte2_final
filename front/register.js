@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch('https://node95.webte.fei.stuba.sk/webte_final/users', {
+            const response = await fetch('https://node126.webte.fei.stuba.sk/webte_final/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
