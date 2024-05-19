@@ -27,7 +27,7 @@ class QuestionHandler {
         $this->pdo = $pdo;
         $this->webSocketServer = 'wss://node126.webte.fei.stuba.sk:2346'; // Replace with your WebSocket server URL
     }
-    
+   /* 
     public function createQuestion($user_id, $subject_id, $text, $options = 0) {
         $code = $this->generateUniqueCode();
         $stmt = $this->pdo->prepare("INSERT INTO Questions (user_id, subject_id, text, code, options) VALUES (:user_id, :subject_id, :text, :code, :options)");
@@ -38,7 +38,22 @@ class QuestionHandler {
         } else {
             return ['status' => 'error', 'message' => 'Failed to create question.'];
         }
+    }*/
+
+    public function createQuestion($user_id, $subject_id, $text, $options = 0) {
+        $code = $this->generateUniqueCode();
+        $stmt = $this->pdo->prepare("INSERT INTO Questions (user_id, subject_id, text, code, options) VALUES (:user_id, :subject_id, :text, :code, :options)");
+        $stmt->execute(['user_id' => $user_id, 'subject_id' => $subject_id, 'text' => $text, 'code' => $code, 'options' => $options]);
+        
+        if ($stmt->rowCount() > 0) {
+            $questionId = $this->pdo->lastInsertId(); // získajte posledné vložené ID
+            
+            return ['status' => 'success', 'message' => 'Question created successfully.', 'code' => $code, 'question_id' => $questionId];
+        } else {
+            return ['status' => 'error', 'message' => 'Failed to create question.'];
+        }
     }
+    
 
     public function getQuestionById($question_id) {
         $stmt = $this->pdo->prepare("SELECT * FROM Questions WHERE id = :question_id");

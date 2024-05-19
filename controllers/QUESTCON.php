@@ -42,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
     $response = $questionHandler->getQuestionsByUserId($user_id);
     echo json_encode($response);
 
+}elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && count($pathParts) === 5 && $pathParts[3] === 'id') { //https://node126.webte.fei.stuba.sk/webte_final/quest/user/1
+    $quest_id = $pathParts[4];
+    $response = $questionHandler->getQuestionById($quest_id);
+    echo json_encode($response);
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 4)) {
     $question_id = $pathParts[3];
     $data = json_decode(file_get_contents('php://input'), true);
