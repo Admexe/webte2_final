@@ -117,4 +117,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     changeLanguage('en'); // Set default language to English
+
+    // Скрытие custom-answers-group при загрузке страницы
+    if (responseType.value === 'custom') {
+        customAnswersGroup.style.display = 'flex';
+    } else {
+        customAnswersGroup.style.display = 'none';
+    }
 });

@@ -65,7 +65,7 @@ body {
 }
 
 textarea, input[type="text"], select {
-    width: 100%;
+    width: 130%;
     max-width: 500px;
     padding: 10px;
     border-radius: 6px;
@@ -77,7 +77,7 @@ textarea, input[type="text"], select {
 }
 
 select {
-    appearance: none; /* Убираем стандартный стиль выпадающего списка */
+    appearance: none; 
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 10px top 50%;
@@ -85,8 +85,8 @@ select {
 }
 
 select option {
-    color: #000; /* Цвет текста вариантов в раскрывающемся меню */
-    background-color: #fff; /* Фон вариантов в раскрывающемся меню */
+    color: #000; 
+    background-color: #fff; 
 }
 
 .submit-question-btn {
