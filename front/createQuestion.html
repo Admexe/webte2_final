@@ -12,12 +12,6 @@
     <div class="language-switcher">
         <button data-lang="en">EN</button>
         <button data-lang="sk">SK</button>
-        <!-- <button id="user-profile" title="User Profile">
-            <i class="fas fa-user"></i>
-        </button>
-        <button id="logout-btn" title="Logout">
-            <i class="fas fa-door-open"></i>
-        </button> -->
         <a href="question.html" id="back-btn" title="Back to Questions">
             <i class="fas fa-arrow-left"></i>
         </a>
@@ -29,6 +23,18 @@
             <div class="form-group">
                 <label for="question-text" data-translate="question_label">Question:</label>
                 <textarea id="question-text" name="question-text" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="response-type" data-translate="response_type_label">Response Type:</label>
+                <select id="response-type" name="response-type" required>
+                    <option value="user" data-translate="response_type_user" selected>User Input Answers</option>
+                    <option value="custom" data-translate="response_type_custom">Custom Answers</option>
+                </select>
+            </div>
+            <div class="form-group" id="custom-answers-group" style="display: none;">
+                <label data-translate="custom_answers_label">Custom Answers:</label>
+                <div id="custom-answers-container"></div>
+                <button type="button" id="add-answer-btn" data-translate="add_answer">Add Answer</button>
             </div>
             <button type="submit" class="submit-question-btn" data-translate="submit_question">Submit Question</button>
         </form>

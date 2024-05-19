@@ -155,6 +155,36 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+    // Логика для кнопки Logout/Login
+    const logoutBtn = document.getElementById('logout-btn');
+
+    logoutBtn.addEventListener('click', function () {
+        // Проверяем авторизован ли пользователь
+        const isAuthenticated = checkAuthentication();
+        
+        if (isAuthenticated) {
+            logoutUser();
+        } else {
+            window.location.href = 'register.html';
+        }
+    });
+
+    function checkAuthentication() {
+        // Пример проверки, можно заменить на реальную логику
+        // Предположим, что у нас есть флаг в localStorage, который указывает на статус авторизации
+        return localStorage.getItem('isAuthenticated') === 'true';
+    }
+
+    function logoutUser() {
+        // Пример логики логаута, можно заменить на реальную
+        localStorage.removeItem('isAuthenticated');
+        alert('Вы успешно вышли из системы.');
+        // Перенаправление на главную страницу или другую страницу
+        window.location.href = 'index.html';
+    }
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('.code-input');
 

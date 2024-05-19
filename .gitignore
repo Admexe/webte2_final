@@ -2,5 +2,5 @@ config.php
 vendor/
 composer.json
 composer.lock
-docker-compose.yml
 .docker/
+docker-compose.yml
