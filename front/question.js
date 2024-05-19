@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isAuthenticated) {
             logoutUser();
         } else {
-            window.location.href = 'register.html';
+            window.location.href = 'index.html';
         }
     });
 

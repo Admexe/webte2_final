@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting System - Login</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+         .back-to-login {
+            display: block;
+            text-align: center;
+            color: #c5e9f3;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="language-switcher">
         <button data-lang="en">EN</button>
         <button data-lang="sk">SK</button>
     </div>
-    
     
     <div class="centered-container">
         <div class="login-container">
@@ -29,18 +37,12 @@
                         <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()">Show</span>
                     </div>
                     <div class="form-group">
-                        <button  type="submit" class="login-button">Login</button>
+                        <button type="submit" class="login-button">Login</button>
+                        
                     </div>
-                    <!-- <div class="links">
-                        <a href="forgotPassword.html" class="forgot-password">Forgot password?</a>
-                        <a href="register.html" class="register-link">Register now</a>
 
-                    </div> -->
-                    <!-- <div class="form-group">
-                        <a href="#" class="admin-button">Login as administrator</a>
-                    </div> -->
-                    
                 </form>
+                <a class="back-to-login" href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html">Back to Login</a>
             </div>
         </div>
     </div>
