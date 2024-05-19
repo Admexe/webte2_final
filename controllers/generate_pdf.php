@@ -1,6 +1,6 @@
 <?php
-session_start();
-
+require '../vendor/autoload.php';
+// Handle CORS requests
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
     header('Access-Control-Allow-Credentials: true');
@@ -18,26 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-header('Content-Type: application/json');
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-// Debugging information
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode([
-        'status' => 'error', 
-        'message' => 'User not logged in',
-        'session' => $_SESSION,
-        'cookies' => $_COOKIE,
-        'session_id' => session_id()
-    ]);
-    exit();
-}
+$html = file_get_contents('../front/instructions.html');
 
-echo json_encode([
-    'status' => 'success',
-    'message' => 'User  logged in',
-    'session' => $_SESSION,
-    'cookies' => $_COOKIE,
-    'session_id' => session_id(),
-    'user_id' => $_SESSION['user_id']
-]);
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isRemoteEnabled', true);
+
+$dompdf = new Dompdf($options);
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'portrait');
+$dompdf->render();
+
+$dompdf->stream("instructions.pdf", ["Attachment" => false]);
 ?>

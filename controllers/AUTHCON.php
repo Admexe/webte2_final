@@ -36,24 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pathParts[3])) {
             
             if (isset($data['username']) && isset($data['password'])) {
                 
-                // Prihlásenie
-// Prihlásenie
-$response = $auth->login($data['username'], $data['password']);
-if ($response['status'] == 'success') {
-    $_SESSION['logged_in'] = true;
-    $_SESSION['user_id'] = $response['user_id'];  
-    $_SESSION['username'] = $response['username'];
-    $_SESSION['role'] = $response['role'];
-    
-  
-    
-    $response['session'] = 'Session initialized successfully.';
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
-}
-
-
+                $response = $auth->login($data['username'], $data['password']);
+                if ($response['status'] == 'success') {
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['user_id'] = $response['user_id'];  // Assuming the login method returns user ID
+                    $_SESSION['username'] = $response['username'];
+                    $_SESSION['role'] = $response['role'];
+                    
+                    
+                    // Add a session confirmation message to the response
+                    $response['session'] = 'Session initialized successfully.';
+                    header('Content-Type: application/json'); // Ensure the content type is set to application/json
+                    echo json_encode($response); // Output the response as JSON
+                    
+                    exit(); // Ensure no further output can corrupt the JSON response
+                }
             }
             else{
                 echo json_encode(['status' => 'error', 'message' => 'Email and password required']);

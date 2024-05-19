@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let questionId;
     let ws;
     let status;
+    let userProfileVisible = false;
 
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
@@ -154,6 +155,36 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+    // Логика для кнопки Logout/Login
+    const logoutBtn = document.getElementById('logout-btn');
+
+    logoutBtn.addEventListener('click', function () {
+        // Проверяем авторизован ли пользователь
+        const isAuthenticated = checkAuthentication();
+        
+        if (isAuthenticated) {
+            logoutUser();
+        } else {
+            window.location.href = 'register.html';
+        }
+    });
+
+    function checkAuthentication() {
+        // Пример проверки, можно заменить на реальную логику
+        // Предположим, что у нас есть флаг в localStorage, который указывает на статус авторизации
+        return localStorage.getItem('isAuthenticated') === 'true';
+    }
+
+    function logoutUser() {
+        // Пример логики логаута, можно заменить на реальную
+        localStorage.removeItem('isAuthenticated');
+        alert('Вы успешно вышли из системы.');
+        // Перенаправление на главную страницу или другую страницу
+        window.location.href = 'index.html';
+    }
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('.code-input');
 
@@ -193,10 +224,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-   // Функция для создания и добавления панели с именем и логином пользователя
+// Функция для создания и добавления панели с именем и логином пользователя
 function showUserProfile() {
     // Создаем элементы для имени и логина пользователя
     var userProfilePanel = document.createElement('div');
+    userProfilePanel.id = 'user-profile-panel'; // Устанавливаем ID для панели
     var userName = document.createTextNode('Name: username'); // Замените на имя пользователя
     var userLogin = document.createTextNode('Login: user_id'); // Замените на логин пользователя
     
@@ -213,6 +245,7 @@ function showUserProfile() {
     userProfilePanel.style.padding = '20px';
     userProfilePanel.style.border = '1px solid #ccc';
     userProfilePanel.style.color = '#c5e9f3';
+    
     // Добавляем панель на страницу
     document.body.appendChild(userProfilePanel);
 }
@@ -224,6 +257,7 @@ function hideUserProfile() {
         userProfilePanel.parentNode.removeChild(userProfilePanel);
     }
 }
+
 
     // Найти кнопку "Личный кабинет"
     const userProfileButton = document.getElementById('user-profile');
@@ -240,5 +274,6 @@ function hideUserProfile() {
             hideUserProfile();
         }
     });
+
 });
 

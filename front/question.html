@@ -6,24 +6,24 @@
     <title>Question Page</title>
     <link rel="stylesheet" href="question.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 <body>
-
     <div class="language-switcher">
         <button data-lang="en">EN</button>
         <button data-lang="sk">SK</button>
         <button id="user-profile" title="User Profile">
             <i class="fas fa-user"></i>
         </button>
-        <button id="logout-btn" title="Logout">
+        <button id="logout-btn" title="Logout/Login">
            <i class="fas fa-door-open"></i>
         </button>
+        <a href="createQuestion.html" id="create-question-btn" title="Create a Question">
+            <i class="fas fa-plus"></i>
+        </a>
     </div>
     
     <div id="container">
         <label for="question-code" id="question-label" data-translate="question-label">Enter Question Code:</label>
-
         <div class="code-row">
             <input type="text" maxlength="1" class="code-input">
             <input type="text" maxlength="1" class="code-input">
