@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #b7d7f0, #5399c9); 
+    background: linear-gradient(to right, #b7d7f0, #5399c9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,8 +13,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%; 
-    min-width: 600px; 
+    width: 50%;
+    min-width: 600px;
 }
 
 .login-container {
@@ -22,12 +22,9 @@ body {
     background: #20232a;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     width: 100%;
 }
-
-
-
 
 .logo-container {
     flex: 1;
@@ -37,7 +34,7 @@ body {
 }
 
 .logo-container img {
-    width: 150px; 
+    width: 150px;
 }
 
 .form-container {
@@ -46,17 +43,17 @@ body {
 }
 
 .center-text {
-    text-align: center; 
+    text-align: center;
     color: #c5e9f3;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
 
 .form-group {
-    position: relative; 
+    position: relative;
     margin-bottom: 15px;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"] {
     width: calc(100% - 20px);
     padding: 10px;
     border-radius: 6px;
@@ -65,7 +62,7 @@ input[type="text"], input[type="password"] {
     color: #fff;
 }
 
-input[type="text"]:focus, input[type="password"]:focus {
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
     outline: none;
     border-color: #c5e9f3;
     box-shadow: 0 0 8px #c5e9f3;
@@ -74,7 +71,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 .toggle-password {
     position: absolute;
     right: 10px;
-    top: 50%; 
+    top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: #c5e9f3;
@@ -83,7 +80,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .login-button {
-    width: calc(100% );
+    width: 100%;
     padding: 10px;
     border: none;
     background-color: #c5e9f3;
@@ -93,14 +90,13 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .login-button:hover {
-    background-color: #15282d;
+    background-color: #4c7986;
     color: #20232a;
 }
 
 .admin-button {
-    display: block; /* Ensure it behaves like a block element for consistent styling */
+    display: block;
     width: 100%;
-
     border: none;
     background: none;
     color: #c5e9f3;
@@ -114,15 +110,12 @@ input[type="text"]:focus, input[type="password"]:focus {
     text-decoration: underline;
 }
 
-
-
-
 .links {
     text-align: center;
     margin-top: 10px;
-    display: flex; 
-    justify-content: space-between; 
-    width: 100%; 
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .links a {
@@ -153,39 +146,6 @@ input[type="text"]:focus, input[type="password"]:focus {
 .language-switcher button:hover {
     background-color: #407ba7;
 }
-
-input[type="email"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #c5e9f3;
-    background-color: transparent;
-    color: #fff;
-    margin-bottom: 15px;
-}
-
-input[type="email"]:focus {
-    outline: none;
-    border-color: #c5e9f3;
-    box-shadow: 0 0 8px #c5e9f3;
-}
-
-
-.login-button {
-    width: calc(100% );
-    padding: 10px;
-    border: none;
-    background-color: #c5e9f3;
-    color: #20232a;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.login-button:hover {
-    background-color: #658f9b;
-    color: #20232a;
-}
-
 
 .back-to-login {
     display: block;
