@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registrationForm');
     const langButtons = document.querySelectorAll('.language-switcher button');
-    let currentLanguage = 'en'; // Хранить текущий выбранный язык
+    let currentLanguage = 'en';
 
-    // Функция для изменения языка
+   
     function changeLanguage(lang) {
-        currentLanguage = lang; // Обновляем текущий язык
+        currentLanguage = lang; 
         const translations = {
             'en': {
                 'register_account': 'Register Your Account',

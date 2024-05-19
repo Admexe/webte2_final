@@ -119,8 +119,9 @@ function handleFormSubmit(event) {
     } else {
         // Вывод сообщения об ошибке
         const errorElement = document.createElement('p');
-        errorElement.textContent = 'Неправильные учетные данные. Попробуйте еще раз.';
+        errorElement.textContent = 'Incorrect credentials. Try again.';
         errorElement.style.color = 'red';
+
         const form = document.getElementById('loginForm');
         form.appendChild(errorElement);
     }
