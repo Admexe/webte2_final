@@ -104,3 +104,27 @@ body {
     font-size: 2em; /* Размер шрифта */
     margin-bottom: 20px; /* Увеличенный отступ снизу */
 }
+
+/* Стилизация кнопок-ссылок */
+.language-switcher a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #5399c9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.language-switcher a:hover {
+    background-color: #407ba7;
+    color: #070606;
+}
+
+.language-switcher i {
+    margin-right: 5px;
+}

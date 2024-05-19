@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let questionId;
     let ws;
     let status;
+    let userProfileVisible = false;
 
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
@@ -193,10 +194,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-   // Функция для создания и добавления панели с именем и логином пользователя
+// Функция для создания и добавления панели с именем и логином пользователя
 function showUserProfile() {
     // Создаем элементы для имени и логина пользователя
     var userProfilePanel = document.createElement('div');
+    userProfilePanel.id = 'user-profile-panel'; // Устанавливаем ID для панели
     var userName = document.createTextNode('Name: username'); // Замените на имя пользователя
     var userLogin = document.createTextNode('Login: user_id'); // Замените на логин пользователя
     
@@ -213,6 +215,7 @@ function showUserProfile() {
     userProfilePanel.style.padding = '20px';
     userProfilePanel.style.border = '1px solid #ccc';
     userProfilePanel.style.color = '#c5e9f3';
+    
     // Добавляем панель на страницу
     document.body.appendChild(userProfilePanel);
 }
@@ -224,6 +227,7 @@ function hideUserProfile() {
         userProfilePanel.parentNode.removeChild(userProfilePanel);
     }
 }
+
 
     // Найти кнопку "Личный кабинет"
     const userProfileButton = document.getElementById('user-profile');
@@ -240,5 +244,6 @@ function hideUserProfile() {
             hideUserProfile();
         }
     });
+
 });
 
