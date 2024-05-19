@@ -1,11 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('create-question-form');
+    const createForUserCheckbox = document.getElementById('create-for-user');
+    const usernameGroup = document.getElementById('username-group');
     const responseType = document.getElementById('response-type');
     const customAnswersGroup = document.getElementById('custom-answers-group');
     const customAnswersContainer = document.getElementById('custom-answers-container');
     const addAnswerBtn = document.getElementById('add-answer-btn');
 
     let answerCount = 0;
+
+    createForUserCheckbox.addEventListener('change', function () {
+        if (createForUserCheckbox.checked) {
+            usernameGroup.style.display = 'block';
+        } else {
+            usernameGroup.style.display = 'none';
+        }
+    });
 
     responseType.addEventListener('change', function () {
         if (responseType.value === 'custom') {
@@ -14,13 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
             customAnswersGroup.style.display = 'none';
         }
     });
-
-
-    if (responseType.value === 'custom') {
-        customAnswersGroup.style.display = 'flex';
-    } else {
-        customAnswersGroup.style.display = 'none';
-    }
 
     addAnswerBtn.addEventListener('click', function () {
         answerCount++;
@@ -41,12 +44,22 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         const questionText = document.getElementById('question-text').value;
         const responseTypeValue = responseType.value;
+        let username = '';
 
         const requestData = {
             text: questionText,
             responseType: responseTypeValue,
             customAnswers: []
         };
+
+        if (createForUserCheckbox.checked) {
+            username = document.getElementById('username').value;
+            if (!username.trim()) {
+                alert('Please enter a username.');
+                return;
+            }
+            requestData.username = username;
+        }
 
         if (responseTypeValue === 'custom') {
             const customAnswers = customAnswersContainer.querySelectorAll('input[type="text"]');
@@ -65,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/question', {
+        fetch('https://node95.webte.fei.stuba.sk/webte_final/questionAdmin', { // Обновленный URL для админского запроса
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,8 +113,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function changeLanguage(lang) {
         const translations = {
             'en': {
-                'create_question': 'Create a Question',
+                'create_question': 'Create a Question (Admin)',
                 'question_label': 'Question:',
+                'username_label': 'Username:',
+                'create_for_user_label': 'Create for another user',
                 'submit_question': 'Submit Question',
                 'response_type_label': 'Response Type:',
                 'response_type_custom': 'Custom Answers',
@@ -113,8 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 'fill_all_custom_answers': 'Please fill in all custom answers before submitting the form.'
             },
             'sk': {
-                'create_question': 'Vytvoriť otázku',
+                'create_question': 'Vytvoriť otázku (Admin)',
                 'question_label': 'Otázka:',
+                'username_label': 'Používateľské meno:',
+                'create_for_user_label': 'Vytvoriť pre iného používateľa',
                 'submit_question': 'Odoslať otázku',
                 'response_type_label': 'Typ odpovede:',
                 'response_type_custom': 'Vlastné odpovede',
