@@ -1,15 +1,11 @@
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('forgotPasswordForm');
+    const form = document.getElementById('registrationForm');
     const langButtons = document.querySelectorAll('.language-switcher button');
+    let currentLanguage = 'en'; // Хранить текущий выбранный язык
 
     // Функция для изменения языка
     function changeLanguage(lang) {
+        currentLanguage = lang; // Обновляем текущий язык
         const translations = {
             'en': {
                 'register_account': 'Register Your Account',
@@ -17,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'email': 'Email',
                 'password': 'Password',
                 'show': 'Show',
-                'hide': 'Hide', // Добавляем перевод для "Hide"
+                'hide': 'Hide',
                 'register': 'Register',
                 'already_have_account': 'Already have an account? Login'
             },
@@ -27,16 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 'email': 'Email',
                 'password': 'Heslo',
                 'show': 'Zobraziť',
-                'hide': 'Skryť', // Добавляем перевод для "Hide"
+                'hide': 'Skryť',
                 'register': 'Registrovať sa',
                 'already_have_account': 'Už máte účet? Prihlásiť sa'
             }
         };
 
-        // Устанавливаем язык для заголовка страницы
         document.title = translations[lang]['register_account'];
 
-        // Находим соответствующие элементы и устанавливаем переводы для атрибута placeholder
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
@@ -45,23 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
         emailInput.placeholder = translations[lang]['email'];
         passwordInput.placeholder = translations[lang]['password'];
 
-        // Устанавливаем текст для остальных элементов
         const elementsToTranslate = document.querySelectorAll('[data-translate]');
         elementsToTranslate.forEach(element => {
             const translationKey = element.dataset.translate;
             element.textContent = translations[lang][translationKey];
         });
 
-        // Изменяем текст кнопки togglePassword
         const togglePassword = document.getElementById('togglePassword');
         togglePassword.textContent = translations[lang][passwordInput.type === 'password' ? 'show' : 'hide'];
     }
 
-    // Обработчики событий для кнопок выбора языка
     langButtons.forEach(button => {
         button.addEventListener('click', function() {
             const lang = this.dataset.lang;
-            changeLanguage(lang); // Вызываем функцию изменения языка при нажатии на кнопку
+            changeLanguage(lang);
         });
     });
 
@@ -87,12 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(payload)
             });
 
-            const text = await response.text();  // Read the response as text
+            const text = await response.text();
             try {
-                const result = JSON.parse(text);  // Try to parse the response as JSON
+                const result = JSON.parse(text);
                 if (response.ok) {
                     alert(result.message);
-                    // Redirect to login page or other actions
                     window.location.href = 'index.html';
                 } else {
                     alert(`Error: ${result.message}`);
@@ -110,20 +100,31 @@ document.addEventListener('DOMContentLoaded', function() {
     function togglePasswordVisibility() {
         const passwordField = document.getElementById('password');
         const togglePassword = document.getElementById('togglePassword');
+        const translations = {
+            'en': {
+                'show': 'Show',
+                'hide': 'Hide'
+            },
+            'sk': {
+                'show': 'Zobraziť',
+                'hide': 'Skryť'
+            }
+        };
+        
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePassword.textContent = 'Hide';
+            togglePassword.textContent = translations[currentLanguage]['hide'];
         } else {
             passwordField.type = 'password';
-            togglePassword.textContent = 'Show';
+            togglePassword.textContent = translations[currentLanguage]['show'];
         }
-        // Добавляем вызов функции changeLanguage, чтобы обновить текст кнопки при смене языка
-        const lang = document.querySelector('.language-switcher button.active').dataset.lang;
-        changeLanguage(lang);
     }
 
-    // Вызываем функцию togglePasswordVisibility при клике на элемент togglePassword
     document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
 
-    changeLanguage('en'); // Установка английского языка по умолчанию
+    changeLanguage('en');
 });
+
+
+
+
