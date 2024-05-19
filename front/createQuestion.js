@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    if (responseType.value === 'custom') {
+        customAnswersGroup.style.display = 'flex';
+    } else {
+        customAnswersGroup.style.display = 'none';
+    }
+
     addAnswerBtn.addEventListener('click', function () {
         answerCount++;
         const answerDiv = document.createElement('div');
