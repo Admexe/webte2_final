@@ -105,3 +105,76 @@ textarea {
     background-color: #407ba7;
     color: #070606;
 }
+select {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #c5e9f3;
+    background-color: transparent;
+    color: #fff;
+    margin-bottom: 10px;
+    appearance: none; /
+}
+
+
+
+#custom-answers-group {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#custom-answers-container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.answer-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.answer-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #c5e9f3;
+    background-color: transparent;
+    color: #fff;
+}
+
+.answer-input button {
+    padding: 5px 10px;
+    background-color: #c5e9f3;
+    color: #20232a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.answer-input button:hover {
+    background-color: #92b6c0;
+    color: #20232a;
+}
+
+#add-answer-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #c5e9f3;
+    color: #20232a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-answer-btn:hover {
+    background-color: #92b6c0;
+    color: #20232a;
+}
