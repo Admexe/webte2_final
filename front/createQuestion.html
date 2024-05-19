@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Question</title>
+    <link rel="stylesheet" href="createQuestion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <div class="language-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="sk">SK</button>
+        <!-- <button id="user-profile" title="User Profile">
+            <i class="fas fa-user"></i>
+        </button>
+        <button id="logout-btn" title="Logout">
+            <i class="fas fa-door-open"></i>
+        </button> -->
+        <a href="question.html" id="back-btn" title="Back to Questions">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+    
+    <div id="create-question-container">
+        <h1 data-translate="create_question">Create a Question</h1>
+        <form id="create-question-form">
+            <div class="form-group">
+                <label for="question-text" data-translate="question_label">Question:</label>
+                <textarea id="question-text" name="question-text" required></textarea>
+            </div>
+            <button type="submit" class="submit-question-btn" data-translate="submit_question">Submit Question</button>
+        </form>
+    </div>
+
+    <script src="createQuestion.js"></script>
+</body>
+</html>

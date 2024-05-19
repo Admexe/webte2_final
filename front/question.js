@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let questionId;
     let ws;
     let status;
+    let userProfileVisible = false;
 
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
