@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             questionCode += input.value;
         });
 
-        fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
             .then(response => response.json())
             .then(question => {
                 document.getElementById('question-text').textContent = question.question.text;
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 questionId = question.question.id;
                 status = question.question.status;
 
-                fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
                     .then(response => response.json())
                     .then(responses => {
                         const responseList = document.getElementById('response-list');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Error fetching responses:', error);
                     });
 
-                ws = new WebSocket(`ws://node126.webte.fei.stuba.sk:8080`);
+                ws = new WebSocket(`wss://node95.webte.fei.stuba.sk/wss`);
 
                 ws.onopen = function () {
                     console.log('WebSocket connection established');
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (status === 1) {
-            fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+            fetch('https://node95.webte.fei.stuba.sk/webte_final/response', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
