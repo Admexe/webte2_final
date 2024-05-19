@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function handleFormSubmit(event) {
-    event.preventDefault(); // Предотвратить стандартное поведение формы
+    event.preventDefault(); 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     login(username, password);
@@ -109,13 +109,13 @@ function login(username, password) {
 }
 
 function handleFormSubmit(event) {
-    event.preventDefault(); // Предотвратить стандартное поведение формы
+    event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     
     // Проверка введенных учетных данных для администратора
     if (username === 'admin@admin1.com' && password === '111') {
-        window.location.href = 'question_admin.html'; // Перенаправление на страницу администратора
+        window.location.href = 'question_admin.html'; // do stranky admina
     } else {
         // Вывод сообщения об ошибке
         const errorElement = document.createElement('p');
