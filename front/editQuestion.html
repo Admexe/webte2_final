@@ -18,7 +18,7 @@
     </div>
     
     <div id="create-question-container">
-        <h1 data-translate="create_question">Edit a Question (Admin)</h1>
+        <h1 data-translate="create_question">Edit a Question </h1>
         <form id="create-question-form">
             <div class="form-group">
                 <label for="question-text" data-translate="question_label">Question:</label>
@@ -33,9 +33,15 @@
             <button type="button" class="submit-question-btn" id="button-option-2">Set Inactive</button>
 
             <button type="submit" class="submit-question-btn" data-translate="submit_question">Submit Question</button>
+
+            <a href="https://node126.webte.fei.stuba.sk/webte_final/front/questPDF.html"  id="pdf-link">
+                <button type="button" class="submit-question-btn">Go to PDF</button>
+            </a>
+            
+
         </form>
     </div>
 
-    <script src="editQuestion.js"></script>
+    <script src="editQuestion.js" defer></script>
 </body>
 </html>
