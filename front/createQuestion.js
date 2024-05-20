@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             customAnswersGroup.style.display = 'none';
         }
+        
+        // Determine options based on response type
+        const options = responseType.value === 'custom' ? 1 : 0;
+        form.dataset.options = options;
     });
 
 
@@ -40,15 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (event) {
         event.preventDefault();
         const questionText = document.getElementById('question-text').value;
-        const responseTypeValue = responseType.value;
+        const options = form.dataset.options || 0; // Default to 0 if not set
 
         const requestData = {
             text: questionText,
-            responseType: responseTypeValue,
+            options: options,
             customAnswers: []
         };
 
-        if (responseTypeValue === 'custom') {
+        if (responseType.value === 'custom') {
             const customAnswers = customAnswersContainer.querySelectorAll('input[type="text"]');
             let allAnswersFilled = true;
             customAnswers.forEach(answerInput => {
@@ -61,11 +65,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (customAnswers.length === 0 || !allAnswersFilled) {
                 alert('Please fill in all custom answers before submitting the form.');
-                return; // Прекращаем выполнение функции submit
+                return;
             }
         }
 
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/question', {
+        // Send the data to the server for processing
+        // Example fetch request...
+        fetch('https://node126.webte.fei.stuba.sk/webte_final/quest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

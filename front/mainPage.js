@@ -92,7 +92,7 @@ document.getElementById('logout').addEventListener('click', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Fetch user ID from session
     let userId = null;
-    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+    fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to fetch user info using user ID
     function fetchUserInfo(userId) {
-        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+        fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateData.password = password;
         }
 
-        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+        fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -177,4 +177,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
