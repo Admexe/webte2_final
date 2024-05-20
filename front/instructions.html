@@ -41,8 +41,8 @@
         }
 
         ul {
-            list-style-type: none;
-            padding: 0;
+            list-style-type: disc;
+            padding: 0 20px; /* Padding to align the bullets inside the container */
         }
 
         ul li {
@@ -96,11 +96,32 @@
     <div class="centered-container">
         <div class="instructions-container">
             <h1 class="center-text">Instructions for Roles</h1>
-            <p class="center-text">Here you can write your instructions for different roles on your site.</p>
             <ul>
-                <li><strong>Admin:</strong> Admin instructions here.</li>
-                <li><strong>User:</strong> User instructions here.</li>
-                <li><strong>Guest:</strong> Guest instructions here.</li>
+                <li>
+                    <strong>Admin:</strong>
+                    <ul>
+                        <li>Create and Manage Questions: Admins can create new voting questions and manage them for all users.</li>
+                        <li>User Management: Admins can manage user accounts, including creating new accounts, editing existing ones, and deleting accounts. They can also change user roles.</li>
+                        <li>Create Questions on Behalf of Other Users: When creating a new question, admins can specify on whose behalf the question is being created.</li>
+                        <li>View and Analyze Results: Admins can view and analyze current voting results.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>User:</strong>
+                    <ul>
+                        <li>Registration and Login: Users can register and log in to create and manage their own voting questions.</li>
+                        <li>Create Questions: Users can create voting questions, choose question types (multiple choice or open-ended), and generate QR codes and unique codes for accessing the questions.</li>
+                        <li>Participate in Voting: Users can participate in active votes and view results.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Guest:</strong>
+                    <ul>
+                        <li>Participate in Voting: Guests can participate in voting by entering a code on the homepage or scanning a QR code.</li>
+                        <li>View Results: After voting, guests can view the voting results in graphical form.</li>
+                        <li>No Registration Required: Guests can participate in voting and view results without the need to register.</li>
+                    </ul>
+                </li>
             </ul>
             <a class="back-to-login" href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html">Back to Login</a>
             <a href="https://node95.webte.fei.stuba.sk/webte_final/controllers/generate_pdf.php" target="_blank">Download Instructions as PDF</a>
