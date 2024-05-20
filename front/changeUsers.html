@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Users</title>
+    <link rel="stylesheet" href="changeUsers.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="language-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="sk">SK</button>
+        <a href="question_admin.html" id="back-btn" title="Back to Questions">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="container">
+        <h1>Change Users</h1>
+        <div class="table-container">
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>Notes</th>
+                        <th>Questions</th>
+                        <th>Responses</th>
+                        <th>Subjects</th>
+                        <th>Users</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Здесь будет генерироваться содержимое таблицы из базы данных -->
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons">
+            <button id="create-button">Create</button>
+            <button id="delete-button">Delete</button>
+        </div>
+    </div>
+
+    <script src="changeUsers.js"></script>
+</body>
+</html>
