@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting System - Login</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-         .back-to-login {
+        .back-to-login {
             display: block;
             text-align: center;
             color: #c5e9f3;
@@ -27,20 +28,18 @@
                 <img src="logo1.webp" alt="Voting System Logo">
             </div>
             <div class="form-container">
-                <h1 class="center-text">Login as Administrator</h1> 
+                <h1 class="center-text" data-translate="loginTitle">Login as Administrator</h1> 
                 <form id="loginForm">
                     <div class="form-group">
-                        <input type="text" id="username" name="username" placeholder="Email or Username" required>
+                        <input type="text" id="username" name="username" placeholder="Email or Username" required data-translate="usernamePlaceholder">
                     </div>
                     <div class="form-group password-group">
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                        <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()">Show</span>
+                        <input type="password" id="password" name="password" placeholder="Password" required data-translate="passwordPlaceholder">
+                        <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()" data-translate="showPassword">Show</span>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="login-button">Login</button>
-                        
+                        <button type="submit" class="login-button" data-translate="loginButton">Login</button>
                     </div>
-
                 </form>
                 <a class="back-to-login" href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html">Back to Login</a>
             </div>
