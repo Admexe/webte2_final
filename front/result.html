@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Answer</title>
+    <link rel="stylesheet" href="result.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="language-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="sk">SK</button>
+        <a href="question.html" id="back-btn" title="Back to Questions">
+            <i class="fas fa-arrow-left"></i> 
+        </a>
+    </div>
+    
+    <div id="chart-container">
+        <h1 data-translate="question_answers">Question Answers</h1>
+        <canvas id="answersChart"></canvas>
+    </div>
+
+    <script src="result.js"></script>
+</body>
+</html>
