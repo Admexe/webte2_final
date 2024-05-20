@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -14,7 +17,7 @@
         <button id="user-profile" title="User Profile">
             <i class="fas fa-user"></i>
         </button>
-        <div id="user-profile-panel" style="display:none;">
+        <div id="user-profile-panel" style="visibility: hidden; position: fixed;">
             <p><i class="fas fa-key"></i> <a href="https://example.com/change-password" id="change-password-btn" title="Change Password"><i class="fas fa-key"></i></a></p>
         </div>
         
@@ -27,7 +30,7 @@
     </div>
     
     <div id="container">
-        <h1 class="center-text">Enter Question Code:</h1> 
+        <h1 class="center-text" data-translate="question-label">Enter Question Code:</h1>
         <div class="code-row">
             <input type="text" maxlength="1" class="code-input">
             <input type="text" maxlength="1" class="code-input">
@@ -37,13 +40,13 @@
         </div>
         <button class="submit-code-btn" id="submit-code" data-translate="submit">Submit</button>
     </div>
-    <div id="question-container" >
+    <div id="question-container">
         <h1 data-translate="question">Question:</h1>
         <p id="question-text"></p>
         <textarea id="response-text" placeholder="Type your response here..." data-translate="type_your_response_here"></textarea>
         <button id="submit-response" data-translate="submit_response">Submit Response</button>
     </div>
-    <div id="responses-container" >
+    <div id="responses-container">
         <h2 data-translate="responses">Responses:</h2>
         <ul id="response-list"></ul>
     </div>
