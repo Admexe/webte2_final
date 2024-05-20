@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred while fetching the subject data. Please try again.');
+                        console.log('An error occurred while fetching the subject data. Please try again.');
                     });
                 } else {
                     console.error('Error:', data.message);
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while fetching the question data. Please try again.');
+                console.log('An error occurred while fetching the question data. Please try again.');
             });
         
             // Handle form submission for updating the question
@@ -101,26 +101,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         .then(response => response.json())
                         .then(data => {
                             if (data.status === 'success') {
-                                alert('Question updated successfully!');
+                                console.log('Question updated successfully!');
                                 // Optionally redirect to another page
                                 window.location.href = 'mainPage.html';
                             } else {
                                 console.error('Error:', data.message);
-                                alert('Failed to update question. Please try again.');
+                                console.log('Failed to update question. Please try again.');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('An error occurred while updating the question. Please try again.');
+                            console.log('An error occurred while updating the question. Please try again.');
                         });
                     } else {
                         console.error('Error:', subjectData.message);
-                        alert('Failed to create or update subject. Please try again.');
+                        console.log('Failed to create or update subject. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while creating or updating the subject. Please try again.');
+                    console.log('An error occurred while creating or updating the subject. Please try again.');
                 });
             });
         
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('Request sent successfully!');
+                        console.log('Request sent successfully!');
         
                         // If status is 0 (inactive), display note textarea
                         if (status === 0) {
@@ -142,12 +142,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     } else {
                         console.error('Error:', data.message);
-                        alert('Failed to send request. Please try again.');
+                        console.log('Failed to send request. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while sending the request. Please try again.');
+                    console.log('An error occurred while sending the request. Please try again.');
                 });
             }
         
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (noteText) {
                         saveNote(noteText);
                     } else {
-                        alert('Note text is required.');
+                        console.log('Note text is required.');
                     }
                 });
             }
@@ -195,15 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('Note saved successfully!');
+                        console.log('Note saved successfully!');
                     } else {
                         console.error('Error:', data.message);
-                        alert('Failed to save note. Please try again.');
+                        console.log('Failed to save note. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while saving the note. Please try again.');
+                    console.log('An error occurred while saving the note. Please try again.');
                 });
             }
         

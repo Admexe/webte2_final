@@ -33,12 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.status === 'success') {
                     userId = data.user_id;
                 } else {
-                    alert('Error fetching user ID: ' + data.message);
+                    console.log('Error fetching user ID: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             });
 
             responseType.addEventListener('change', function () {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const options = answerCount > 0 ? 1 : 0; // Adjust options based on answer count
             
                 if (!subjectText) {
-                    alert('Subject is required.');
+                    console.log('Subject is required.');
                     return;
                 }
             
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (questionCodeInput) {
                     window.location.href = `question.html?code=${questionCodeInput}`;
                 } else {
-                    alert('Please enter a valid question code.');
+                    console.log('Please enter a valid question code.');
                 }
             });
 

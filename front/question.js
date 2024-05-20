@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.status === 'success') {
                     userId = data.user_id;
                 } else {
-                    alert('Error fetching user ID: ' + data.message);
+                    console.log('Error fetching user ID: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             });
 
             // Function to fetch user info using user ID
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data) {
                         showUserProfile(data.name, data.email);
                     } else {
-                        alert('Error fetching user info.');
+                        console.log('Error fetching user info.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
+                    console.log('An error occurred. Please try again.');
                 });
             }
 
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             if (!questionId) {
                                 console.error('Question ID not available');
-                                alert('Question ID not available. Please enter a valid question code first.');
+                                console.log('Question ID not available. Please enter a valid question code first.');
                                 return;
                             }
 
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 })
                                 .then(response => {
                                     if (response.ok) {
-                                        alert('Response submitted successfully');
+                                        console.log('Response submitted successfully');
                                         document.getElementById('response-text').value = '';
                                         ws.send(JSON.stringify({
                                             action: 'new_response',
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     console.error('Error submitting response:', error);
                                 });
                             } else {
-                                alert('This question is not active. Response cannot be submitted.');
+                                console.log('This question is not active. Response cannot be submitted.');
                             }
                         });
                     } else {
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 submitVoteButton.addEventListener('click', function () {
                                     const selectedResponses = document.querySelectorAll('input[name="response-checkbox"]:checked');
                                     if (selectedResponses.length === 0) {
-                                        alert('Please select a response before submitting your vote.');
+                                        console.log('Please select a response before submitting your vote.');
                                         return;
                                     }
 
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                     question_id: questionId,
                                                     response_id: responseId
                                                 }));
-                                                alert('Your vote has been submitted successfully.');
+                                                console.log('Your vote has been submitted successfully.');
                                                 checkbox.checked = false;
                                             } else {
                                                 throw new Error('Failed to submit vote.');
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => {
                     console.error('Error fetching question:', error);
-                    alert('Question not found. Please enter a valid question code.');
+                    console.log('Question not found. Please enter a valid question code.');
                 });
         }
 
@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (questionCodeInput) {
                 fetchAndDisplayQuestion(questionCodeInput);
             } else {
-                alert('Please enter a valid question code.');
+                console.log('Please enter a valid question code.');
             }
         });
 
@@ -484,15 +484,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert('Logout successful!');
+                    console.log('Logout successful!');
                     window.location.href = 'index.html'; // Adjust the URL as needed
                 } else {
-                    alert('Logout failed: ' + data.message);
+                    console.log('Logout failed: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error during logout:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             });
         });
 

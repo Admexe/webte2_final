@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('Logout successful!');
+                        console.log('Logout successful!');
                         window.location.href = 'index.html';
                     } else {
-                        alert('Logout failed: ' + data.message);
+                        console.log('Logout failed: ' + data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Error during logout:', error);
-                    alert('An error occurred. Please try again.');
+                    console.log('An error occurred. Please try again.');
                 });
             });
 
@@ -98,12 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             } else {
-                alert('Error fetching user ID: ' + data.message);
+                console.log('Error fetching user ID: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            console.log('An error occurred. Please try again.');
         });
 
         function fetchUserInfo(userId) {
@@ -120,12 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('username').value = data.name;
                     document.getElementById('email').value = data.email;
                 } else {
-                    alert('Error fetching user info.');
+                    console.log('Error fetching user info.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             });
         }
 
@@ -152,18 +152,18 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert('User info updated successfully!');
+                    console.log('User info updated successfully!');
                     document.getElementById('username').value = name;
                     document.getElementById('email').value = email;
                     document.getElementById('new-password').value = '';
                     location.reload();
                 } else {
-                    alert('Error updating user info: ' + data.message);
+                    console.log('Error updating user info: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             });
         });
     }

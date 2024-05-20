@@ -82,18 +82,18 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const result = JSON.parse(text);
                 if (response.ok) {
-                    alert(result.message);
+                    console.log(result.message);
                     window.location.href = 'index.html';
                 } else {
-                    alert(`Error: ${result.message}`);
+                    console.log(`Error: ${result.message}`);
                 }
             } catch (error) {
                 console.error('JSON parse error:', error);
-                alert('An error occurred. Please try again.');
+                console.log('An error occurred. Please try again.');
             }
         } catch (error) {
             console.error('Fetch error:', error);
-            alert('An error occurred. Please try again.');
+            console.log('An error occurred. Please try again.');
         }
     });
 
