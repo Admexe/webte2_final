@@ -179,3 +179,46 @@ select option {
     background-color: #92b6c0;
     color: #20232a;
 }
+
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group-inline label {
+    margin: 10px;
+}
+
+.form-group-inline input[type="checkbox"] {
+    margin-left: 20px; /* Отступ для чекбокса от текста */
+}
+
+#username-group {
+    display: flex;
+    align-items: center;
+}
+
+#username-group label {
+    color: #c5e9f3;
+    margin-left: 10px;
+}
+
+#username-group select {
+    width: 120px; /* Изменение ширины, чтобы соответствовать содержимому */
+}
+
+.username-group {
+    display: flex;
+    align-items: center;
+}
+
+.username-group label {
+    color: #c5e9f3;
+    margin-left: 10px;
+}
+
+
+.username-group.sk select {
+    margin-right: 60px; /* Сдвиг вправо для словацкой версии */
+}

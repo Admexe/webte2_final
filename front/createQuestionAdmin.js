@@ -150,6 +150,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const translationKey = element.dataset.translate;
             element.textContent = translations[lang][translationKey];
         });
+
+        // Update class for username group based on language
+        if (lang === 'sk') {
+            usernameGroup.classList.add('sk');
+        } else {
+            usernameGroup.classList.remove('sk');
+        }
     }
 
     changeLanguage('en'); // Set default language to English
