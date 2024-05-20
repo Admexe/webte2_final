@@ -1,14 +1,3 @@
-function togglePasswordVisibility() {
-    let passwordInput = document.getElementById('password');
-    let toggleButton = document.getElementById('togglePassword');
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.textContent = 'Hide';
-    } else {
-        passwordInput.type = 'password';
-        toggleButton.textContent = 'Show';
-    }
-}
 // Object containing data for each language
 const languageData = {
     en: {
@@ -19,7 +8,9 @@ const languageData = {
         forgotPassword: "Forgot password?",
         registerNow: "Register now",
         showPassword: "Show",
-        hidePassword: "Hide"
+        hidePassword: "Hide",
+        loginAsAdmin: "Login as administrator",
+        instructions: "Instructions"
     },
     sk: {
         loginTitle: "Prihláste sa na váš učet",
@@ -29,7 +20,9 @@ const languageData = {
         forgotPassword: "Zabudli ste heslo?",
         registerNow: "Registrovať sa",
         showPassword: "Zobraziť",
-        hidePassword: "Skryť"
+        hidePassword: "Skryť",
+        loginAsAdmin: "Prihlásiť sa ako administrátor",
+        instructions: "Návod"
     }
 };
 
@@ -40,7 +33,9 @@ function switchLanguage(lang) {
     document.getElementById("password").placeholder = languageData[lang].passwordPlaceholder;
     document.querySelector(".login-button").textContent = languageData[lang].loginButton;
     document.querySelector(".forgot-password").textContent = languageData[lang].forgotPassword;
-    document.querySelector(".register-link").textContent = languageData[lang].registerNow;
+    document.querySelector(".register-link[data-translate='registerNow']").textContent = languageData[lang].registerNow;
+    document.querySelector(".register-link[data-translate='instructions']").textContent = languageData[lang].instructions;
+    document.querySelector(".admin-button").textContent = languageData[lang].loginAsAdmin;
     document.getElementById("togglePassword").textContent = languageData[lang].showPassword;
 
     // Save the selected language in localStorage for future visits
@@ -55,7 +50,7 @@ function togglePasswordVisibility() {
     
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
-    togglePasswordButton.textContent = languageData[lang].hidePassword;
+        togglePasswordButton.textContent = languageData[lang].hidePassword;
     } else {
         passwordInput.type = "password";
         togglePasswordButton.textContent = languageData[lang].showPassword;
@@ -63,15 +58,21 @@ function togglePasswordVisibility() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    const savedLanguage = localStorage.getItem("selectedLanguage") || 'en'; // Default to English
+    switchLanguage(savedLanguage);
+
+    // Set up event listeners for language switch buttons
     document.querySelectorAll(".language-switcher button").forEach(button => {
         button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
     });
+
+    // Set up event listener for form submission
     const loginForm = document.getElementById("loginForm");
     loginForm.addEventListener('submit', handleFormSubmit);
 });
 
 function handleFormSubmit(event) {
-    event.preventDefault(); // Предотвратить стандартное поведение формы
+    event.preventDefault(); // Prevent the default form submission behavior
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     login(username, password);
@@ -96,6 +97,7 @@ function login(username, password) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
+
 
 // !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
 
