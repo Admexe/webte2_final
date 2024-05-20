@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userId = urlParams.get('userId');
 
     const pdfLink = document.getElementById('pdf-link');
-    pdfLink.href = `https://node126.webte.fei.stuba.sk/webte_final/front/questPDF.html?questionId=${questionId}`;
+    pdfLink.href = `https://node95.webte.fei.stuba.sk/webte_final/front/questPDF.html?questionId=${questionId}`;
 
     var logged_in = false;
 

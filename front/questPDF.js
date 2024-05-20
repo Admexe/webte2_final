@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
             // Fetch question details using user ID
-            fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/id/${questionId}`, {
+            fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/id/${questionId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('question-text').textContent = questionText;
 
                     // Fetch responses for the question
-                    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`, {
+                    fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
      // Generate and download PDF on button click
 document.querySelector('.pdf-download').addEventListener('click', function() {
-    fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/generate_questPDF.php', {
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/generate_questPDF.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
