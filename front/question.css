@@ -6,7 +6,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    color: #469cac;
+    color: #d1e4f3;
 }
 
 
@@ -76,7 +76,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: #5399c9;
+    color: #d1e4f3;
     width: 50%;
     min-width: 500px;
     min-height: 300px;
