@@ -41,8 +41,12 @@
         }
 
         ul {
-            list-style-type: disc;
-            padding: 0 20px; /* Padding to align the bullets inside the container */
+            list-style-type: none; /* Убирает точки у основного списка */
+            padding: 0 20px;
+        }
+
+        ul ul {
+            list-style-type: disc; /* Возвращает точки для вложенного списка */
         }
 
         ul li {
