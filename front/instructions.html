@@ -16,11 +16,32 @@
             color: #fff;
         }
 
+        .language-switcher {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+
+        .language-switcher button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #5399c9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .language-switcher button:hover {
+            background-color: #407ba7;
+            color: #070606;
+        }
+
         .centered-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 50%;
+            width: 70%;
             min-width: 600px;
         }
 
@@ -41,12 +62,12 @@
         }
 
         ul {
-            list-style-type: none; /* Убирает точки у основного списка */
+            list-style-type: none;
             padding: 0 20px;
         }
 
         ul ul {
-            list-style-type: disc; /* Возвращает точки для вложенного списка */
+            list-style-type: disc;
         }
 
         ul li {
@@ -97,39 +118,103 @@
     </style>
 </head>
 <body>
+    <div class="language-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="sk">SK</button>
+    </div>
     <div class="centered-container">
         <div class="instructions-container">
-            <h1 class="center-text">Instructions for Roles</h1>
+            <h1 class="center-text" data-translate="title">Instructions for Roles</h1>
             <ul>
                 <li>
-                    <strong>Admin:</strong>
+                    <strong data-translate="admin">Admin:</strong>
                     <ul>
-                        <li>Create and Manage Questions: Admins can create new voting questions and manage them for all users.</li>
-                        <li>User Management: Admins can manage user accounts, including creating new accounts, editing existing ones, and deleting accounts. They can also change user roles.</li>
-                        <li>Create Questions on Behalf of Other Users: When creating a new question, admins can specify on whose behalf the question is being created.</li>
-                        <li>View and Analyze Results: Admins can view and analyze current voting results.</li>
+                        <li data-translate="admin-1">Create and Manage Questions: Admins can create new voting questions and manage them for all users.</li>
+                        <li data-translate="admin-2">User Management: Admins can manage user accounts, including creating new accounts, editing existing ones, and deleting accounts. They can also change user roles.</li>
+                        <li data-translate="admin-3">Create Questions on Behalf of Other Users: When creating a new question, admins can specify on whose behalf the question is being created.</li>
+                        <li data-translate="admin-4">View and Analyze Results: Admins can view and analyze current voting results.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>User:</strong>
+                    <strong data-translate="user">User:</strong>
                     <ul>
-                        <li>Registration and Login: Users can register and log in to create and manage their own voting questions.</li>
-                        <li>Create Questions: Users can create voting questions, choose question types (multiple choice or open-ended), and generate QR codes and unique codes for accessing the questions.</li>
-                        <li>Participate in Voting: Users can participate in active votes and view results.</li>
+                        <li data-translate="user-1">Registration and Login: Users can register and log in to create and manage their own voting questions.</li>
+                        <li data-translate="user-2">Create Questions: Users can create voting questions, choose question types (multiple choice or open-ended), and generate QR codes and unique codes for accessing the questions.</li>
+                        <li data-translate="user-3">Participate in Voting: Users can participate in active votes and view results.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>Guest:</strong>
+                    <strong data-translate="guest">Guest:</strong>
                     <ul>
-                        <li>Participate in Voting: Guests can participate in voting by entering a code on the homepage or scanning a QR code.</li>
-                        <li>View Results: After voting, guests can view the voting results in graphical form.</li>
-                        <li>No Registration Required: Guests can participate in voting and view results without the need to register.</li>
+                        <li data-translate="guest-1">Participate in Voting: Guests can participate in voting by entering a code on the homepage or scanning a QR code.</li>
+                        <li data-translate="guest-2">View Results: After voting, guests can view the voting results in graphical form.</li>
+                        <li data-translate="guest-3">No Registration Required: Guests can participate in voting and view results without the need to register.</li>
                     </ul>
                 </li>
             </ul>
-            <a class="back-to-login" href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html">Back to Login</a>
-            <a href="https://node95.webte.fei.stuba.sk/webte_final/controllers/generate_pdf.php" target="_blank">Download Instructions as PDF</a>
+            <a class="back-to-login" data-translate="back-to-login" href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html">Back to Login</a>
+            <a href="https://node95.webte.fei.stuba.sk/webte_final/controllers/generate_pdf.php" target="_blank" data-translate="download-pdf">Download Instructions as PDF</a>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            const translations = {
+                'en': {
+                    'title': 'Instructions for Roles',
+                    'admin': 'Admin:',
+                    'admin-1': 'Create and Manage Questions: Admins can create new voting questions and manage them for all users.',
+                    'admin-2': 'User Management: Admins can manage user accounts, including creating new accounts, editing existing ones, and deleting accounts. They can also change user roles.',
+                    'admin-3': 'Create Questions on Behalf of Other Users: When creating a new question, admins can specify on whose behalf the question is being created.',
+                    'admin-4': 'View and Analyze Results: Admins can view and analyze current voting results.',
+                    'user': 'User:',
+                    'user-1': 'Registration and Login: Users can register and log in to create and manage their own voting questions.',
+                    'user-2': 'Create Questions: Users can create voting questions, choose question types (multiple choice or open-ended), and generate QR codes and unique codes for accessing the questions.',
+                    'user-3': 'Participate in Voting: Users can participate in active votes and view results.',
+                    'guest': 'Guest:',
+                    'guest-1': 'Participate in Voting: Guests can participate in voting by entering a code on the homepage or scanning a QR code.',
+                    'guest-2': 'View Results: After voting, guests can view the voting results in graphical form.',
+                    'guest-3': 'No Registration Required: Guests can participate in voting and view results without the need to register.',
+                    'back-to-login': 'Back to Login',
+                    'download-pdf': 'Download Instructions as PDF'
+                },
+                'sk': {
+                    'title': 'Pokyny pre role',
+                    'admin': 'Admin:',
+                    'admin-1': 'Vytváranie a správa otázok: Administrátori môžu vytvárať nové hlasovacie otázky a spravovať ich pre všetkých používateľov.',
+                    'admin-2': 'Správa používateľov: Administrátori môžu spravovať používateľské účty, vrátane vytvárania nových účtov, úpravy existujúcich a mazania účtov. Môžu tiež meniť role používateľov.',
+                    'admin-3': 'Vytváranie otázok v mene iných používateľov: Pri vytváraní novej otázky môžu administrátori určiť, v mene koho je otázka vytváraná.',
+                    'admin-4': 'Zobraziť a analyzovať výsledky: Administrátori môžu zobrazovať a analyzovať aktuálne výsledky hlasovania.',
+                    'user': 'Používateľ:',
+                    'user-1': 'Registrácia a prihlásenie: Používatelia sa môžu zaregistrovať a prihlásiť, aby mohli vytvárať a spravovať svoje vlastné hlasovacie otázky.',
+                    'user-2': 'Vytváranie otázok: Používatelia môžu vytvárať hlasovacie otázky, vyberať typy otázok (viacnásobný výber alebo otvorené otázky) a generovať QR kódy a jedinečné kódy na prístup k otázkam.',
+                    'user-3': 'Účasť na hlasovaní: Používatelia sa môžu zúčastniť aktívnych hlasovaní a zobraziť výsledky.',
+                    'guest': 'Hosť:',
+                    'guest-1': 'Účasť na hlasovaní: Hostia sa môžu zúčastniť hlasovania zadaním kódu na domovskej stránke alebo skenovaním QR kódu.',
+                    'guest-2': 'Zobraziť výsledky: Po hlasovaní môžu hostia zobraziť výsledky hlasovania v grafickej podobe.',
+                    'guest-3': 'Nie je potrebná registrácia: Hostia sa môžu zúčastniť hlasovania a zobraziť výsledky bez potreby registrácie.',
+                    'back-to-login': 'Späť na prihlásenie',
+                    'download-pdf': 'Stiahnite si pokyny vo formáte PDF'
+                }
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const lang = this.dataset.lang;
+                    changeLanguage(lang);
+                });
+            });
+
+            function changeLanguage(lang) {
+                const elementsToTranslate = document.querySelectorAll('[data-translate]');
+                elementsToTranslate.forEach(element => {
+                    const translationKey = element.dataset.translate;
+                    element.textContent = translations[lang][translationKey];
+                });
+            }
+
+            changeLanguage('en'); // Set default language to English
+        });
+    </script>
 </body>
 </html>
