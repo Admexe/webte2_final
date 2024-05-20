@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let userProfileVisible = false;
 
     // Fetch user ID from session
-    fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to fetch user info using user ID
     function fetchUserInfo(userId) {
-        fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             questionCode += input.value;
         });
 
-        fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
             .then(response => response.json())
             .then(question => {
                 document.getElementById('question-text').textContent = question.question.text;
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Check if options value is 0
                 if (optionsValue === 0) {
                     // Existing logic
-                    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                    fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
                         .then(response => response.json())
                         .then(responses => {
                             const responseList = document.getElementById('response-list');
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             console.error('Error fetching responses:', error);
                         });
 
-                    ws = new WebSocket(`wss://node126.webte.fei.stuba.sk/wss`);
+                    ws = new WebSocket(`wss://node95.webte.fei.stuba.sk/wss`);
 
                     ws.onopen = function () {
                         console.log('WebSocket connection established');
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                 
                         if (status === 1) {
-                            fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+                            fetch('https://node95.webte.fei.stuba.sk/webte_final/response', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     // If options value is not 0
 // Fetch responses for the question and display them with checkboxes
-fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
 .then(response => response.json())
 .then(responses => {
     const responseList = document.getElementById('response-list');
@@ -236,7 +236,7 @@ selectedResponses.forEach(checkbox => {
     const responseId = checkbox.value;
 
     // Send request to increment vote for this response
-    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/increment/${responseId}`, {
+    fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/increment/${responseId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -326,7 +326,7 @@ selectedResponses.forEach(checkbox => {
 
     // User profile and logout functionality
     document.getElementById('logout-btn').addEventListener('click', function() {
-        const url = 'https://node126.webte.fei.stuba.sk/webte_final/auth/logout';
+        const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
     
         fetch(url, {
             method: 'POST',
