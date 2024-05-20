@@ -74,6 +74,12 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
         currentQuestions.forEach(question => {
             const p = document.createElement('p');
             p.textContent = question.text;
+            p.classList.add('question-link');
+            p.dataset.questionId = question.id;
+            p.addEventListener('click', () => {
+                const questionId = question.id;
+                window.location.href = `https://node126.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
+            });
             currentVotesList.appendChild(p);
         });
         currentVotesSection.classList.remove('hidden');
@@ -85,6 +91,12 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
         pastQuestions.forEach(question => {
             const p = document.createElement('p');
             p.textContent = question.text;
+            p.classList.add('question-link');
+            p.dataset.questionId = question.id;
+            p.addEventListener('click', () => {
+                const questionId = question.id;
+                window.location.href = `https://node126.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
+            });
             pastVotesList.appendChild(p);
         });
         pastVotesSection.classList.remove('hidden');
