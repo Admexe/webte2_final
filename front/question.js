@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let ws;
     let status;
     let userProfileVisible = false;
-    let userId = null;
 
     // Fetch user ID from session
-    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+    fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to fetch user info using user ID
     function fetchUserInfo(userId) {
-        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+        fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
         userProfileVisible = !userProfileVisible;
     });
 
-    // Submit code functionality
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
         let questionCode = '';
@@ -101,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             questionCode += input.value;
         });
 
-        fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+        fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
             .then(response => response.json())
             .then(question => {
                 document.getElementById('question-text').textContent = question.question.text;
@@ -110,41 +108,161 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 questionId = question.question.id;
                 status = question.question.status;
+                const optionsValue = question.question.options;
+                console.log('Options value:', optionsValue);
 
-                fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
-                    .then(response => response.json())
-                    .then(responses => {
-                        const responseList = document.getElementById('response-list');
-                        responseList.innerHTML = '';
-                        responses.forEach(response => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = response.text;
-                            responseList.appendChild(listItem);
+                // Check if options value is 0
+                if (optionsValue === 0) {
+                    // Existing logic
+                    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                        .then(response => response.json())
+                        .then(responses => {
+                            const responseList = document.getElementById('response-list');
+                            responseList.innerHTML = '';
+                            responses.forEach(response => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = response.text;
+                                responseList.appendChild(listItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching responses:', error);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching responses:', error);
+
+                    ws = new WebSocket(`wss://node126.webte.fei.stuba.sk/wss`);
+
+                    ws.onopen = function () {
+                        console.log('WebSocket connection established');
+                    };
+
+                    ws.onerror = function (error) {
+                        console.error('WebSocket error:', error);
+                    };
+
+                    ws.onmessage = function (event) {
+                        const message = JSON.parse(event.data);
+                        if (message.action === 'new_response' && message.question_id === questionId) {
+                            const responseList = document.getElementById('response-list');
+                            const listItem = document.createElement('li');
+                            listItem.textContent = message.response;
+                            responseList.appendChild(listItem);
+                        }
+                    };
+
+                    document.getElementById('submit-response').addEventListener('click', function () {
+                        const responseText = document.getElementById('response-text').value;
+                
+                        if (!questionId) {
+                            console.error('Question ID not available');
+                            alert('Question ID not available. Please enter a valid question code first.');
+                            return;
+                        }
+                
+                        if (status === 1) {
+                            fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    question_id: questionId,
+                                    text: responseText,
+                                    votes: 1
+                                })
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        alert('Response submitted successfully');
+                                        document.getElementById('response-text').value = '';
+                                        ws.send(JSON.stringify({
+                                            action: 'new_response',
+                                            question_id: questionId,
+                                            response: responseText
+                                        }));
+                                    } else {
+                                        throw new Error('Failed to submit response');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error submitting response:', error);
+                                });
+                        } else {
+                            alert('This question is not active. Response cannot be submitted.');
+                        }
                     });
 
-                ws = new WebSocket(`wss://node95.webte.fei.stuba.sk/wss`);
+                } else {
+                    // If options value is not 0
+// Fetch responses for the question and display them with checkboxes
+fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+.then(response => response.json())
+.then(responses => {
+    const responseList = document.getElementById('response-list');
+    responseList.innerHTML = ''; // Clear existing content
+    responses.forEach(response => {
+        const listItem = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = response.id;
+        checkbox.name = 'response-checkbox';
+        listItem.appendChild(checkbox);
+        listItem.appendChild(document.createTextNode(response.text));
+        responseList.appendChild(listItem);
+    });
 
-                ws.onopen = function () {
-                    console.log('WebSocket connection established');
-                };
+    // Listen for click on any checkbox
+    const checkboxes = document.querySelectorAll('input[name="response-checkbox"]');
 
-                ws.onerror = function (error) {
-                    console.error('WebSocket error:', error);
-                };
+            document.getElementById('response-text').style.display = 'none';
+        
+})
+.catch(error => {
+    console.error('Error fetching responses:', error);
+});
 
-                ws.onmessage = function (event) {
-                    const message = JSON.parse(event.data);
-                    if (message.action === 'new_response' && message.question_id === questionId) {
-                        const responseList = document.getElementById('response-list');
-                        const listItem = document.createElement('li');
-                        listItem.textContent = message.response;
-                        responseList.appendChild(listItem);
-                    }
-                };
+// Listen for click on submit response button
+document.getElementById('submit-response').addEventListener('click', function () {
+// Get all selected checkboxes
+const selectedResponses = document.querySelectorAll('input[name="response-checkbox"]:checked');
+
+// If no response is selected, alert the user
+if (selectedResponses.length === 0) {
+    alert('Please select a response before submitting your vote.');
+    return;
+}
+
+// For each selected checkbox
+selectedResponses.forEach(checkbox => {
+    const responseId = checkbox.value;
+
+    // Send request to increment vote for this response
+    fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/increment/${responseId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => {
+        if (response.ok) {
+            // If request is successful, alert the user
+            alert('Your vote has been submitted successfully.');
+            // Uncheck the selected checkbox so the user knows they have voted
+            checkbox.checked = false;
+        } else {
+            // If there is an error, log it to the console
+            throw new Error('Failed to submit vote.');
+        }
+    })
+    .catch(error => {
+        // If there is an error, log it to the console
+        console.error('Error submitting vote:', error);
+    });
+});
+});
+
+                }
+                
             })
             .catch(error => {
                 console.error('Error fetching question:', error);
@@ -152,48 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    document.getElementById('submit-response').addEventListener('click', function () {
-        const responseText = document.getElementById('response-text').value;
-
-        if (!questionId) {
-            console.error('Question ID not available');
-            alert('Question ID not available. Please enter a valid question code first.');
-            return;
-        }
-
-        if (status === 1) {
-            fetch('https://node95.webte.fei.stuba.sk/webte_final/response', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    question_id: questionId,
-                    text: responseText,
-                    votes: 1
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Response submitted successfully');
-                        document.getElementById('response-text').value = '';
-                        ws.send(JSON.stringify({
-                            action: 'new_response',
-                            question_id: questionId,
-                            response: responseText
-                        }));
-                    } else {
-                        throw new Error('Failed to submit response');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error submitting response:', error);
-                });
-        } else {
-            alert('This question is not active. Response cannot be submitted.');
-        }
-    });
-
+    
     // Language Switcher Functionality
     const langButtons = document.querySelectorAll('.language-switcher button');
     langButtons.forEach(button => {
@@ -249,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // User profile and logout functionality
     document.getElementById('logout-btn').addEventListener('click', function() {
-        const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
+        const url = 'https://node126.webte.fei.stuba.sk/webte_final/auth/logout';
     
         fetch(url, {
             method: 'POST',
@@ -288,4 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+
+    
 });

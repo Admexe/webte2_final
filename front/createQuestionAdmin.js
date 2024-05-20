@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/questionAdmin', { // Обновленный URL для админского запроса
+        fetch('https://node126.webte.fei.stuba.sk/webte_final/questionAdmin', { // Обновленный URL для админского запроса
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

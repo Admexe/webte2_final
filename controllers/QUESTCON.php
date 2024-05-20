@@ -26,26 +26,36 @@ $questionHandler = new QuestionHandler();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
     $data = json_decode(file_get_contents('php://input'), true);
     
-    if (isset($data['user_id']) && isset($data['subject_id']) && isset($data['text'])) {
-        $response = $questionHandler->createQuestion($data['user_id'], $data['subject_id'], $data['text']);
+    if (isset($data['user_id']) && isset($data['subject_id']) && isset($data['text']) && isset($data['options'])) {
+        $response = $questionHandler->createQuestion($data['user_id'], $data['subject_id'], $data['text'], $data['options']);
         echo json_encode($response);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'User ID, Subject ID, and Text of the question are required']);
+        echo json_encode(['status' => 'error', 'message' => 'User ID, Subject ID, Text of the question, and Options are required']);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && (count($pathParts) === 4)) {
     $question_code = $pathParts[3];
     $response = $questionHandler->getQuestionByCode($question_code);
     echo json_encode($response);
 
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && count($pathParts) === 5 && $pathParts[3] === 'user') { //https://node126.webte.fei.stuba.sk/webte_final/quest/user/1
+    $user_id = $pathParts[4];
+    $response = $questionHandler->getQuestionsByUserId($user_id);
+    echo json_encode($response);
+
+}elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && count($pathParts) === 5 && $pathParts[3] === 'id') { //https://node126.webte.fei.stuba.sk/webte_final/quest/id/1
+    $quest_id = $pathParts[4];
+    $response = $questionHandler->getQuestionById($quest_id);
+    echo json_encode($response);
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 4)) {
     $question_id = $pathParts[3];
     $data = json_decode(file_get_contents('php://input'), true);
     
-    if (isset($data['text']) && isset($data['subject_id'])) {
-        $response = $questionHandler->updateQuestion($question_id, $data['subject_id'], $data['text']);
+    if (isset($data['text']) && isset($data['subject_id']) && isset($data['options'])) {
+        $response = $questionHandler->updateQuestion($question_id, $data['subject_id'], $data['text'], $data['options']);
         echo json_encode($response);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Text and Subject ID are required']);
+        echo json_encode(['status' => 'error', 'message' => 'Text, Subject ID, and Options are required']);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && (count($pathParts) === 5)) {
     $question_id = $pathParts[3];
@@ -63,4 +73,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  (count($pathParts) === 3)) {
     header("HTTP/1.1 404 Not Found");
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
 }
+
 ?>

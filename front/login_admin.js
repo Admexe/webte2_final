@@ -95,7 +95,7 @@ function handleFormSubmit(event) {
 
 function login(username, password) {
     const credentials = { username, password };
-    fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', {
+    fetch('https://node126.webte.fei.stuba.sk/webte_final/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials)

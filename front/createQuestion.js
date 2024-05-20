@@ -4,23 +4,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const customAnswersGroup = document.getElementById('custom-answers-group');
     const customAnswersContainer = document.getElementById('custom-answers-container');
     const addAnswerBtn = document.getElementById('add-answer-btn');
-
     let answerCount = 0;
+    let userId = null;
 
-    responseType.addEventListener('change', function () {
-        if (responseType.value === 'custom') {
-            customAnswersGroup.style.display = 'flex';
+    // Fetch user ID from session
+    fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            userId = data.user_id;
         } else {
-            customAnswersGroup.style.display = 'none';
+            alert('Error fetching user ID: ' + data.message);
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
     });
 
-
-    if (responseType.value === 'custom') {
-        customAnswersGroup.style.display = 'flex';
-    } else {
-        customAnswersGroup.style.display = 'none';
-    }
+    responseType.addEventListener('change', function () {
+        customAnswersGroup.style.display = responseType.value === 'custom' ? 'flex' : 'none';
+        form.dataset.options = responseType.value === 'custom' ? 1 : 0;
+    });
 
     addAnswerBtn.addEventListener('click', function () {
         answerCount++;
@@ -36,57 +47,196 @@ document.addEventListener('DOMContentLoaded', function () {
             customAnswersContainer.removeChild(answerDiv);
         });
     });
-
+/*
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-        const questionText = document.getElementById('question-text').value;
-        const responseTypeValue = responseType.value;
-
-        const requestData = {
-            text: questionText,
-            responseType: responseTypeValue,
-            customAnswers: []
-        };
-
-        if (responseTypeValue === 'custom') {
-            const customAnswers = customAnswersContainer.querySelectorAll('input[type="text"]');
-            let allAnswersFilled = true;
-            customAnswers.forEach(answerInput => {
-                if (!answerInput.value.trim()) {
-                    allAnswersFilled = false;
-                } else {
-                    requestData.customAnswers.push(answerInput.value.trim());
-                }
-            });
-
-            if (customAnswers.length === 0 || !allAnswersFilled) {
-                alert('Please fill in all custom answers before submitting the form.');
-                return; // Прекращаем выполнение функции submit
-            }
+        const subjectText = document.getElementById('subject-text').value.trim();
+        const questionText = document.getElementById('question-text').value.trim();
+        const options = answerCount > 0 ? 1 : 0; // Adjust options based on answer count
+    
+        if (!subjectText) {
+            alert('Subject is required.');
+            return;
         }
-
-        fetch('https://node95.webte.fei.stuba.sk/webte_final/question', {
+    
+        // Create subject
+        fetch('https://node126.webte.fei.stuba.sk/webte_final/subject', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(requestData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Question submitted successfully');
-                    form.reset();
-                    customAnswersGroup.style.display = 'none';
-                    customAnswersContainer.innerHTML = '';
-                    answerCount = 0;
-                } else {
-                    throw new Error('Failed to submit question');
-                }
+            body: JSON.stringify({
+                text: subjectText
             })
-            .catch(error => {
-                console.error('Error submitting question:', error);
-            });
+        })
+        .then(response => response.json())
+        .then(subjectData => {
+            if (subjectData.status === 'success') {
+                // Subject created successfully
+                const subjectId = subjectData.subject.id;
+    
+                // Proceed with creating the question
+                const requestData = {
+                    user_id: userId,
+                    subject_id: subjectId, // Use the subject ID here
+                    text: questionText,
+                    options: options
+                };
+    
+                if (options != 0) {
+                    
+                }
+    
+                // Send the data to the server for processing
+                fetch('https://node126.webte.fei.stuba.sk/webte_final/quest', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Question submitted successfully');
+                        form.reset();
+                        customAnswersGroup.style.display = 'none';
+                        customAnswersContainer.innerHTML = '';
+                        answerCount = 0;
+                    } else {
+                        throw new Error('Failed to submit question');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting question:', error);
+                });
+            } else {
+                throw new Error('Failed to create subject');
+            }
+        })
+        .catch(error => {
+            console.error('Error creating subject:', error);
+        });
+    });*/
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const subjectText = document.getElementById('subject-text').value.trim();
+        const questionText = document.getElementById('question-text').value.trim();
+        const options = answerCount > 0 ? 1 : 0; // Adjust options based on answer count
+    
+        if (!subjectText) {
+            alert('Subject is required.');
+            return;
+        }
+    
+        // Create subject
+        fetch('https://node126.webte.fei.stuba.sk/webte_final/subject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: subjectText
+            })
+        })
+        .then(response => response.json())
+        .then(subjectData => {
+            if (subjectData.status === 'success') {
+                // Subject created successfully
+                const subjectId = subjectData.subject.id;
+    
+                // Proceed with creating the question
+                const requestData = {
+                    user_id: userId,
+                    subject_id: subjectId, // Use the subject ID here
+                    text: questionText,
+                    options: options
+                };
+    
+                if (options === 1) {
+                    // Send the question data to create a question
+                    fetch('https://node126.webte.fei.stuba.sk/webte_final/quest', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    })
+                    .then(response => response.json())
+                    .then(questionData => {
+                        if (questionData.status === 'success') {
+                            const questionId = questionData.question_id;
+                            // Iterate over custom answers and send each response individually
+                            customAnswersContainer.querySelectorAll('input[type="text"]').forEach(answerInput => {
+                                const responseText = answerInput.value.trim();
+                                const responseData = {
+                                    question_id: questionId,
+                                    text: responseText,
+                                    votes: 0
+                                };
+                                console.log(responseData);
+                                // Send response data to the server
+                                fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(responseData)
+                                })
+                                .then(response => response.json())
+                                .then(responseData => {
+                                    console.log('Response:', responseData);
+                                })
+                                .catch(error => {
+                                    console.error('Error submitting response:', error);
+                                });
+                            });
+                            alert('Question and responses submitted successfully');
+                            form.reset();
+                            customAnswersGroup.style.display = 'none';
+                            customAnswersContainer.innerHTML = '';
+                            answerCount = 0;
+                        } else {
+                            throw new Error('Failed to create question');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error creating question:', error);
+                    });
+                } else {
+                    // Send the data to the server for processing without custom answers
+                    fetch('https://node126.webte.fei.stuba.sk/webte_final/quest', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Question submitted successfully');
+                            form.reset();
+                            customAnswersGroup.style.display = 'none';
+                            customAnswersContainer.innerHTML = '';
+                            answerCount = 0;
+                        } else {
+                            throw new Error('Failed to submit question');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting question:', error);
+                    });
+                }
+            } else {
+                throw new Error('Failed to create subject');
+            }
+        })
+        .catch(error => {
+            console.error('Error creating subject:', error);
+        });
     });
+    
+    
 
     // Language Switcher Functionality
     const langButtons = document.querySelectorAll('.language-switcher button');
@@ -101,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const translations = {
             'en': {
                 'create_question': 'Create a Question',
+                'subject_label': 'Subject:',
                 'question_label': 'Question:',
                 'submit_question': 'Submit Question',
                 'response_type_label': 'Response Type:',
@@ -114,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             'sk': {
                 'create_question': 'Vytvoriť otázku',
+                'subject_label': 'Predmet:',
                 'question_label': 'Otázka:',
                 'submit_question': 'Odoslať otázku',
                 'response_type_label': 'Typ odpovede:',
@@ -137,10 +289,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     changeLanguage('en'); // Set default language to English
 
-    // Скрытие custom-answers-group при загрузке страницы
-    if (responseType.value === 'custom') {
-        customAnswersGroup.style.display = 'flex';
-    } else {
-        customAnswersGroup.style.display = 'none';
-    }
+    // Initial display setup for custom answers group
+    customAnswersGroup.style.display = responseType.value === 'custom' ? 'flex' : 'none';
 });
