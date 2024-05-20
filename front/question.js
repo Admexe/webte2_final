@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const questionCode = urlParams.get('code');
 
-    if (questionCode) {
+    function fetchAndDisplayQuestion(questionCode) {
         fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
             .then(response => {
                 if (!response.ok) {
@@ -388,9 +388,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error fetching question:', error);
                 alert('Question not found. Please enter a valid question code.');
             });
-    } else {
-        document.getElementById('code-input-container').style.display = 'block';
     }
+
+    // If there is a question code in the URL, fetch and display the question
+    if (questionCode) {
+        fetchAndDisplayQuestion(questionCode);
+    }
+
+    // Add event listener to the submit button for code input
+    document.getElementById('submit-code').addEventListener('click', function () {
+        const codeInputs = document.querySelectorAll('.code-input');
+        let questionCodeInput = '';
+        codeInputs.forEach(input => {
+            questionCodeInput += input.value;
+        });
+        if (questionCodeInput) {
+            fetchAndDisplayQuestion(questionCodeInput);
+        } else {
+            alert('Please enter a valid question code.');
+        }
+    });
 
     // Language Switcher Functionality
     const langButtons = document.querySelectorAll('.language-switcher button');
@@ -414,7 +431,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 'failed_to_submit_response': 'Failed to submit response',
                 'question_not_found': 'Question not found. Please enter a valid question code.',
                 'question_id_not_available': 'Question ID not available. Please enter a valid question code first.',
-                'question_not_active': 'This question is not active. Response cannot be submitted.'
+                'question_not_active': 'This question is not active. Response cannot be submitted.',
+                'predefined_answers': 'Predefined Answers:',
+                'live_graph': 'Live Graph:'
             },
             'sk': {
                 'question-label': 'Zadajte kód otázky:',
@@ -427,7 +446,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 'failed_to_submit_response': 'Odoslanie odpovede zlyhalo',
                 'question_not_found': 'Otázka sa nenašla. Zadajte prosím platný kód otázky.',
                 'question_id_not_available': 'Identifikátor otázky nie je k dispozícii. Najskôr zadajte platný kód otázky.',
-                'question_not_active': 'Táto otázka nie je aktívna. Odpoveď nemôže byť odoslaná.'
+                'question_not_active': 'Táto otázka nie je aktívna. Odpoveď nemôže byť odoslaná.',
+                'predefined_answers': 'Preddefinované odpovede:',
+                'live_graph': 'Živý graf:'
             }
         };
 

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('logout').addEventListener('click', function() {
 // Define the URL for the logout endpoint
-const url = 'https://node126.webte.fei.stuba.sk/webte_final/auth/logout';
+const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
 
 // Make the POST request
 fetch(url, {
@@ -42,7 +42,7 @@ fetch(url, {
 document.addEventListener('DOMContentLoaded', function() {
 // Fetch user ID from session
 let userId = null;
-fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
         userId = data.user_id;
         fetchUserInfo(userId);
 
-        fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/user/${userId}`, {
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/user/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
             p.dataset.questionId = question.id;
             p.addEventListener('click', () => {
                 const questionId = question.id;
-                window.location.href = `https://node126.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
+                window.location.href = `https://node95.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
             });
             currentVotesList.appendChild(p);
         });
@@ -95,7 +95,7 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
             p.dataset.questionId = question.id;
             p.addEventListener('click', () => {
                 const questionId = question.id;
-                window.location.href = `https://node126.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
+                window.location.href = `https://node95.webte.fei.stuba.sk/webte_final/front/editQuestion.html?questionId=${questionId}&userId=${userId}`;
             });
             pastVotesList.appendChild(p);
         });
@@ -117,7 +117,7 @@ fetch('https://node126.webte.fei.stuba.sk/webte_final/controllers/get_user_id.ph
 
 // Function to fetch user info using user ID
 function fetchUserInfo(userId) {
-    fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+    fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -152,7 +152,7 @@ document.getElementById('profile-form').addEventListener('submit', function(even
         updateData.password = password;
     }
 
-    fetch(`https://node126.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+    fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
