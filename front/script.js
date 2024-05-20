@@ -90,7 +90,7 @@ function login(username, password) {
             if (data.role === 1) {
                 window.location.href = 'question_admin.html';
             } else {
-                window.location.href = 'question.html';
+                window.location.href = 'mainPage.html';
             }
         } else {
             console.error('Login failed:', data.message);

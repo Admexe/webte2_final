@@ -11,7 +11,8 @@ class NoteHandler {
     }
     
     public function createNote($question_id, $text) {
-        $timestamp = date('Y-m-d H:i:s');
+        $stmt_timestamp = $this->pdo->query("SELECT NOW()");
+        $timestamp = $stmt_timestamp->fetchColumn();
         $stmt = $this->pdo->prepare("INSERT INTO Notes (question_id, timestamp, text) VALUES (:question_id, :timestamp, :text)");
         $stmt->execute(['question_id' => $question_id, 'timestamp' => $timestamp, 'text' => $text]);
         
