@@ -1,12 +1,23 @@
 function togglePasswordVisibility() {
-    let passwordInput = document.getElementById('password');
-    let toggleButton = document.getElementById('togglePassword');
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.textContent = 'Hide';
+    const passwordField = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const translations = {
+        'en': {
+            'show': 'Show',
+            'hide': 'Hide'
+        },
+        'sk': {
+            'show': 'Zobraziť',
+            'hide': 'Skryť'
+        }
+    };
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        togglePassword.textContent = translations[currentLanguage]['hide'];
     } else {
-        passwordInput.type = 'password';
-        toggleButton.textContent = 'Show';
+        passwordField.type = 'password';
+        togglePassword.textContent = translations[currentLanguage]['show'];
     }
 }
 // Object containing data for each language
@@ -71,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function handleFormSubmit(event) {
-    event.preventDefault(); // Предотвратить стандартное поведение формы
+    event.preventDefault(); 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     login(username, password);
@@ -96,6 +107,26 @@ function login(username, password) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    // Проверка введенных учетных данных для администратора
+    if (username === 'admin@admin1.com' && password === '111') {
+        window.location.href = 'question_admin.html'; // do stranky admina
+    } else {
+        // Вывод сообщения об ошибке
+        const errorElement = document.createElement('p');
+        errorElement.textContent = 'Incorrect credentials. Try again.';
+        errorElement.style.color = 'red';
+
+        const form = document.getElementById('loginForm');
+        form.appendChild(errorElement);
+    }
+}
+
 
 // !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
 

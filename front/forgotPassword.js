@@ -12,24 +12,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const elements = document.querySelectorAll('[data-i18n]');
         elements.forEach(element => {
             const key = element.getAttribute('data-i18n');
-            element.textContent = i18n[lang][key];
+            // Проверяем, является ли элемент input или textarea, чтобы установить атрибут placeholder
+            if (element.tagName.toLowerCase() === 'input' || element.tagName.toLowerCase() === 'textarea') {
+                element.placeholder = i18n[lang][key];
+            } else {
+                // Иначе, устанавливаем текст контента
+                element.textContent = i18n[lang][key];
+            }
         });
     }
+    
 
     const i18n = {
         en: {
             title: 'Forgot Password',
             submit: 'Send Verification Code',
-            back: 'Back to Login'
+            back: 'Back to Login',
+            email_placeholder: 'Enter your email'
         },
         sk: {
             title: 'Zabudnuté heslo',
             submit: 'Odoslať overovací kód',
-            back: 'Späť na prihlásenie'
+            back: 'Späť na prihlásenie',
+            email_placeholder: 'Zadajte svoj email'
         }
     };
 
-    window.switchLanguage = switchLanguage;
+   
 
+    // Обработчик кнопок переключения языка
+    const languageButtons = document.querySelectorAll('.language-switcher button');
+    languageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            switchLanguage(lang);
+        });
+    });
+
+    // Устанавливаем язык по умолчанию
     switchLanguage('en');
 });

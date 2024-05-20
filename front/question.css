@@ -1,0 +1,135 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #b7d7f0, #5399c9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #d1e4f3;
+}
+
+
+#code-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px; /* Увеличенный отступ */
+}
+
+.code-row {
+    display: flex;
+    
+}
+
+.code-input {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    margin-right: 5px;
+    color: #92b6c0;
+    background-color: #070606;
+    border-color: #92b6c0;
+}
+
+#submit-code {
+    margin-top: 30px; /* Увеличенный отступ */
+    padding: 20px 30px;
+    background-color: #c5e9f3;
+    color: #20232a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submit-code:hover {
+    background-color: #92b6c0;
+    color: #20232a;
+}
+
+#question-container,
+#responses-container {
+    display: none;
+    margin-top: 20px;
+}
+
+#logout-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 5px;
+}
+
+#logout-btn:hover {
+    background-color: #407ba7;
+    color:#070606;
+}
+
+#container {
+    background-color:#20232a;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #d1e4f3;
+    width: 50%;
+    min-width: 500px;
+    min-height: 300px;
+
+}
+
+.language-switcher {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.language-switcher button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #5399c9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.language-switcher button:hover {
+    background-color: #407ba7;
+    color:#070606;
+}
+
+#question-label {
+    color: #c5e9f3; /* Цвет текста */
+    font-size: 2em; /* Размер шрифта */
+    margin-bottom: 20px; /* Увеличенный отступ снизу */
+}
+
+/* Стилизация кнопок-ссылок */
+.language-switcher a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #5399c9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.language-switcher a:hover {
+    background-color: #407ba7;
+    color: #070606;
+}
+
+.language-switcher i {
+    margin-right: 5px;
+}

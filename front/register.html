@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Voting System - Register</title>
+    <title>Online Voting System - Registrácia</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,26 +15,26 @@
     <div class="centered-container">
         <div class="login-container">
             <div class="logo-container">
-                <img src="logo1.webp" alt="Voting System Logo">
+                <img src="logo1.webp" alt="Logo online hlasovania">
             </div>
             <div class="form-container">
-                <h1 class="center-text">Register Your Account</h1>
+                <h1 class="center-text" data-translate="register_account">Registrácia účtu</h1>
                 <form id="registrationForm">
                     <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Name" required>
+                        <input type="text" id="name" name="name" placeholder="Meno" required>
                     </div>
                     <div class="form-group">
                         <input type="text" id="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="form-group password-group">
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                        <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()">Show</span>
+                        <input type="password" id="password" name="password" placeholder="Heslo" required>
+                        <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()">Zobraziť</span>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="login-button">Register</button>
+                        <button type="submit" class="login-button" data-translate="register">Registrovať sa</button>
                     </div>
                     <div class="links">
-                        <a href="index.html" class="forgot-password">Already have an account? Login</a>
+                        <a href="https://node95.webte.fei.stuba.sk/webte_final/front/index.html" class="forgot-password" data-translate="already_have_account">Už máte účet? Prihlásiť sa</a>
                     </div>
                 </form>
             </div>
