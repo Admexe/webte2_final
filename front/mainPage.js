@@ -1,5 +1,5 @@
 let logged_in = false;
-
+let userId = null;
 document.addEventListener('DOMContentLoaded', function() {
     checkSession().then(isLoggedIn => {
         logged_in = isLoggedIn;
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                const userId = data.user_id;
+                userId = data.user_id;
                 fetchUserInfo(userId);
 
                 fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/user/${userId}`, {
