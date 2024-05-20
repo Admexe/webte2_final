@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function logoutUser() {
         // Пример логики логаута, можно заменить на реальную
         localStorage.removeItem('isAuthenticated');
-        alert('Вы успешно вышли из системы.');
+        alert('You are logged off.');
         // Перенаправление на главную страницу или другую страницу
         window.location.href = 'index.html';
     }
@@ -292,4 +292,13 @@ function hideUserProfile() {
     });
 
 });
+
+
+
+
+
+
+
+
+
 
