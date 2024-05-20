@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionId = urlParams.get('questionId');
     const userId = urlParams.get('userId');
 
+    const pdfLink = document.getElementById('pdf-link');
+    pdfLink.href = `https://node126.webte.fei.stuba.sk/webte_final/front/questPDF.html?questionId=${questionId}`;
+
+
     // Fetch the question data
     fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/id/${questionId}`, {
         method: 'GET',

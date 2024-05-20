@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #b7d7f0, #5399c9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            min-width: 600px;
+        }
+
+        .question-container {
+            display: flex;
+            flex-direction: column;
+            background: #20232a;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .center-text {
+            text-align: center;
+            color: #c5e9f3;
+            margin-bottom: 20px;
+        }
+
+        .response-item {
+            background-color: #30363d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .response-text {
+            font-size: 18px;
+            color: #c5e9f3;
+            margin: 0;
+        }
+
+        .votes {
+            font-size: 16px;
+            color: #c5e9f3;
+        }
+
+        .back-to-questions, .pdf-download {
+            display: block;
+            text-align: center;
+            color: #c5e9f3;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .back-to-questions:hover, .pdf-download:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-container">
+        <div class="question-container">
+            <h1 class="center-text" id="question-text">Question Text Placeholder</h1>
+            <div id="responses-container">
+                <!-- Response items will be appended here dynamically -->
+            </div>
+            <a class="back-to-questions" href="mainPage.html">Back to Questions</a>
+            <a class="pdf-download">Download Question as PDF</a>
+        </div>
+    </div>
+    <script src="questPDF.js" defer></script>
+</body>
+</html>
