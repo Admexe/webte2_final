@@ -87,7 +87,11 @@ function login(username, password) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            window.location.href = 'question.html';
+            if (data.role === 1) {
+                window.location.href = 'question_admin.html';
+            } else {
+                window.location.href = 'question.html';
+            }
         } else {
             console.error('Login failed:', data.message);
         }
@@ -96,6 +100,7 @@ function login(username, password) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
+
 
 // !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
 

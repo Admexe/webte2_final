@@ -103,7 +103,12 @@ function login(username, password) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            window.location.href = 'question_admin.html';
+            if (data.role === 1) {
+                console.log(data.role);
+                window.location.href = 'question_admin.html';
+            } else {
+                window.location.href = 'question.html';
+            }
         } else {
             console.error('Login failed:', data.message);
         }
@@ -112,7 +117,6 @@ function login(username, password) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
-
 /*function handleFormSubmit(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
