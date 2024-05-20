@@ -4,8 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let status;
     let userProfileVisible = false;
     let userId = null;
-
-    // Fetch user ID from session
+    var logged_in = false;
+    checkSession(logged_in);
+    console.log(logged_in);
+    if(logged_in){
+         // Fetch user ID from session
     fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
         method: 'GET',
         headers: {
@@ -92,6 +95,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         userProfileVisible = !userProfileVisible;
     });
+
+
+
+    }
+   
 
     // Capture the question code from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -507,4 +515,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
 });
+function checkSession(logged_in) {
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/checkSession', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log('User is logged in:', data);
+            logged_in = true;
+        } else {
+            console.log('User is not logged in:', data.message);
+
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+}
