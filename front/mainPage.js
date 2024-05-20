@@ -62,7 +62,7 @@ function getUserType() {
 
 document.getElementById('logout').addEventListener('click', function() {
     // Define the URL for the logout endpoint
-    const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
+    const url = 'https://node126.webte.fei.stuba.sk/webte_final/auth/logout';
 
     // Make the POST request
     fetch(url, {
