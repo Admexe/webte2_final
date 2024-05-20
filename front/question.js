@@ -223,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
 // Функция для создания и добавления панели с именем и логином пользователя
 function showUserProfile() {
     // Создаем элементы для имени и логина пользователя
@@ -236,6 +235,20 @@ function showUserProfile() {
     userProfilePanel.appendChild(userName);
     userProfilePanel.appendChild(document.createElement('br')); // Добавляем перенос строки
     userProfilePanel.appendChild(userLogin);
+    userProfilePanel.appendChild(document.createElement('br'));
+
+    // Создаем элемент с надписью "Password"
+    var passwordLabel = document.createTextNode('Password: ');
+    userProfilePanel.appendChild(passwordLabel);
+
+    // Создаем элемент с значком ключа
+    var keyIcon = document.createElement('i');
+    keyIcon.className = 'fas fa-key fa-inverse'; // Добавляем класс fa-inverse для белого цвета
+    var changePasswordLink = document.createElement('a');
+    changePasswordLink.href = 'changePassword.html'; // Замените на свою ссылку
+    changePasswordLink.appendChild(keyIcon);
+    // Добавляем надпись "Change Password" с ссылкой и значком ключа
+    userProfilePanel.appendChild(changePasswordLink);
     
     // Стилизуем панель
     userProfilePanel.style.position = 'fixed';
@@ -249,6 +262,9 @@ function showUserProfile() {
     // Добавляем панель на страницу
     document.body.appendChild(userProfilePanel);
 }
+
+
+
 
 // Функция для удаления панели с именем и логином пользователя
 function hideUserProfile() {
