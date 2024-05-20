@@ -88,7 +88,7 @@ function login(username, password) {
     .then(data => {
         if (data.status === 'success') {
             if (data.role === 1) {
-                window.location.href = 'question_admin.html';
+                window.location.href = 'mainPage.html';
             } else {
                 window.location.href = 'mainPage.html';
             }

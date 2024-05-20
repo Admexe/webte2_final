@@ -105,9 +105,9 @@ function login(username, password) {
         if (data.status === 'success') {
             if (data.role === 1) {
                 console.log(data.role);
-                window.location.href = 'question_admin.html';
+                window.location.href = 'mainPage.html';
             } else {
-                window.location.href = 'question.html';
+                window.location.href = 'mainPage.html';
             }
         } else {
             console.error('Login failed:', data.message);
@@ -117,75 +117,4 @@ function login(username, password) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
-/*function handleFormSubmit(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    
-    // Проверка введенных учетных данных для администратора
-    if (username === 'admin@admin1.com' && password === '111') {
-        window.location.href = 'question_admin.html'; // do stranky admina
-    } else {
-        // Вывод сообщения об ошибке
-        const errorElement = document.createElement('p');
-        errorElement.textContent = 'Incorrect credentials. Try again.';
-        errorElement.style.color = 'red';
 
-        const form = document.getElementById('loginForm');
-        form.appendChild(errorElement);
-    }
-}*/
-
-
-// !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
-
-// // Event listener for form submission 
-// document.addEventListener("DOMContentLoaded", function() {
-//     const loginForm = document.getElementById("loginForm");
-
-//     loginForm.addEventListener('submit', function(event) {
-//         event.preventDefault(); // Prevent the default form submission behavior
-
-//         // Example validation: Ensure both fields are not empty
-//         const username = document.getElementById('username').value;
-//         const password = document.getElementById('password').value;
-//         const credentials = {
-//             username: username,
-//             password: password
-//         };
-        
-       
-//         fetch('https://node95.webte.fei.stuba.sk/webte_final/auth/login', { // URL of your API endpoint
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(credentials)
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         console.log('Success:', data);
-//         if (data.status === 'success') {
-//             console.log('Session initialized:', data.session);
-//             window.location.href = 'mainPage.html'; 
-//         } else {
-//             console.error('Login failed:', data.message);
-//         }
-//     })
-//     .catch(error => {
-//         console.error('There was a problem with your fetch operation:', error);
-//     });
-
-//     const savedLanguage = localStorage.getItem("selectedLanguage") || 'en'; // Default to English
-//     switchLanguage(savedLanguage);
-
-//     // Set up event listeners for language switch buttons
-//     document.querySelectorAll(".language-switcher button").forEach(button => {
-//         button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
-//     });
-// })});
