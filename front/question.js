@@ -3,7 +3,97 @@ document.addEventListener('DOMContentLoaded', function () {
     let ws;
     let status;
     let userProfileVisible = false;
+    let userId = null;
 
+    // Fetch user ID from session
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            userId = data.user_id;
+        } else {
+            alert('Error fetching user ID: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+
+    // Function to fetch user info using user ID
+    function fetchUserInfo(userId) {
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include' // Include credentials for CORS
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                showUserProfile(data.name, data.email);
+            } else {
+                alert('Error fetching user info.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+
+    // Function to create and display the user profile panel
+    function showUserProfile(username, userId) {
+        let userProfilePanel = document.getElementById('user-profile-panel');
+        if (!userProfilePanel) {
+            userProfilePanel = document.createElement('div');
+            userProfilePanel.id = 'user-profile-panel';
+            userProfilePanel.style.position = 'fixed';
+            userProfilePanel.style.top = '50px';
+            userProfilePanel.style.right = '10px';
+            userProfilePanel.style.backgroundColor = '#20232a';
+            userProfilePanel.style.padding = '20px';
+            userProfilePanel.style.border = '1px solid #ccc';
+            userProfilePanel.style.color = '#c5e9f3';
+            userProfilePanel.style.visibility = 'hidden'; // Hide initially
+            document.body.appendChild(userProfilePanel);
+        }
+
+        userProfilePanel.innerHTML = `
+            <p>Name: ${username}</p>
+            <p>Login: ${userId}</p>
+        `;
+
+        userProfilePanel.style.visibility = 'visible'; // Show panel
+    }
+
+    // Function to hide the user profile panel
+    function hideUserProfile() {
+        const userProfilePanel = document.getElementById('user-profile-panel');
+        if (userProfilePanel) {
+            userProfilePanel.style.visibility = 'hidden'; // Hide panel
+        }
+    }
+
+    // Toggle user profile panel visibility
+    document.getElementById('user-profile').addEventListener('click', function () {
+        const userProfilePanel = document.getElementById('user-profile-panel');
+        if (!userProfileVisible) {
+            fetchUserInfo(userId);
+        } else {
+            hideUserProfile();
+        }
+        userProfileVisible = !userProfileVisible;
+    });
+
+    // Submit code functionality
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
         let questionCode = '';
@@ -109,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
     langButtons.forEach(button => {
         button.addEventListener('click', function () {
             const lang = this.dataset.lang;
-            changeLanguage(lang); // Вызываем функцию изменения языка при нажатии на кнопку
+            changeLanguage(lang); // Call the language change function
         });
     });
 
@@ -147,47 +237,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
         elementsToTranslate.forEach(element => {
             const translationKey = element.dataset.translate;
-            element.textContent = translations[lang][translationKey];
+            if (translations[lang] && translations[lang][translationKey]) {
+                element.textContent = translations[lang][translationKey];
+            } else {
+                console.warn(`Translation key "${translationKey}" not found for language "${lang}"`);
+            }
         });
     }
 
-    changeLanguage('en'); // Установка английского языка по умолчанию
-});
+    changeLanguage('en'); // Set default language to English
 
-
-
-    // Логика для кнопки Logout/Login
-    const logoutBtn = document.getElementById('logout-btn');
-
-    logoutBtn.addEventListener('click', function () {
-        // Проверяем авторизован ли пользователь
-        const isAuthenticated = checkAuthentication();
-        
-        if (isAuthenticated) {
-            logoutUser();
-        } else {
-            window.location.href = 'index.html';
-        }
+    // User profile and logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
+    
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Logout successful!');
+                window.location.href = 'index.html'; // Adjust the URL as needed
+            } else {
+                alert('Logout failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during logout:', error);
+            alert('An error occurred. Please try again.');
+        });
     });
 
-    function checkAuthentication() {
-        // Пример проверки, можно заменить на реальную логику
-        // Предположим, что у нас есть флаг в localStorage, который указывает на статус авторизации
-        return localStorage.getItem('isAuthenticated') === 'true';
-    }
-
-    function logoutUser() {
-        // Пример логики логаута, можно заменить на реальную
-        localStorage.removeItem('isAuthenticated');
-        alert('Вы успешно вышли из системы.');
-        // Перенаправление на главную страницу или другую страницу
-        window.location.href = 'index.html';
-    }
-
-
-document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('.code-input');
-
     inputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
             if (input.value.length === 1 && index < inputs.length - 1) {
@@ -204,92 +289,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.code-input');
-
-    inputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-            if (input.value.length === 1 && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            } else if (e.key === 'ArrowLeft' && index > 0) {
-                inputs[index - 1].focus();
-            }
-        });
-    });
-// Функция для создания и добавления панели с именем и логином пользователя
-function showUserProfile() {
-    // Создаем элементы для имени и логина пользователя
-    var userProfilePanel = document.createElement('div');
-    userProfilePanel.id = 'user-profile-panel'; // Устанавливаем ID для панели
-    var userName = document.createTextNode('Name: username'); // Замените на имя пользователя
-    var userLogin = document.createTextNode('Login: user_id'); // Замените на логин пользователя
-    
-    // Добавляем имя и логин в панель
-    userProfilePanel.appendChild(userName);
-    userProfilePanel.appendChild(document.createElement('br')); // Добавляем перенос строки
-    userProfilePanel.appendChild(userLogin);
-    userProfilePanel.appendChild(document.createElement('br'));
-
-    // Создаем элемент с надписью "Password"
-    var passwordLabel = document.createTextNode('Password: ');
-    userProfilePanel.appendChild(passwordLabel);
-
-    // Создаем элемент с значком ключа
-    var keyIcon = document.createElement('i');
-    keyIcon.className = 'fas fa-key fa-inverse'; // Добавляем класс fa-inverse для белого цвета
-    var changePasswordLink = document.createElement('a');
-    changePasswordLink.href = 'changePassword.html'; // Замените на свою ссылку
-    changePasswordLink.appendChild(keyIcon);
-    // Добавляем надпись "Change Password" с ссылкой и значком ключа
-    userProfilePanel.appendChild(changePasswordLink);
-    
-    // Стилизуем панель
-    userProfilePanel.style.position = 'fixed';
-    userProfilePanel.style.top = '50px';
-    userProfilePanel.style.right = '10px';
-    userProfilePanel.style.backgroundColor = '#20232a';
-    userProfilePanel.style.padding = '20px';
-    userProfilePanel.style.border = '1px solid #ccc';
-    userProfilePanel.style.color = '#c5e9f3';
-    
-    // Добавляем панель на страницу
-    document.body.appendChild(userProfilePanel);
-}
-
-
-
-
-// Функция для удаления панели с именем и логином пользователя
-function hideUserProfile() {
-    var userProfilePanel = document.getElementById('user-profile-panel');
-    if (userProfilePanel) {
-        userProfilePanel.parentNode.removeChild(userProfilePanel);
-    }
-}
-
-
-    // Найти кнопку "Личный кабинет"
-    const userProfileButton = document.getElementById('user-profile');
-
-    // Добавить обработчик события на нажатие кнопки "Личный кабинет"
-    userProfileButton.addEventListener('click', function () {
-        // Показываем или скрываем панель профиля в зависимости от ее текущего состояния
-        const userProfilePanel = document.getElementById('user-profile-panel');
-        if (!userProfilePanel) {
-            // Если панель не существует, показываем ее
-            showUserProfile();
-        } else {
-            // Если панель уже существует, скрываем ее
-            hideUserProfile();
-        }
-    });
-
-});
-

@@ -77,7 +77,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".language-switcher button").forEach(button => {
         button.addEventListener('click', () => switchLanguage(button.getAttribute('data-lang')));
     });
-    const loginForm = document.getElementById("loginForm");
+    const loginForm = document.getElementById("loginForm"); 
+    console.log("SEM TADYSS");
+    console.log(loginForm);
     loginForm.addEventListener('submit', handleFormSubmit);
 });
 
@@ -85,6 +87,9 @@ function handleFormSubmit(event) {
     event.preventDefault(); 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    console.log(username);
+    console.log(password);
+    console.log("TRYING MY BEST HERE");
     login(username, password);
 }
 
@@ -98,7 +103,7 @@ function login(username, password) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            window.location.href = 'question.html';
+            window.location.href = 'question_admin.html';
         } else {
             console.error('Login failed:', data.message);
         }
@@ -108,7 +113,7 @@ function login(username, password) {
     });
 }
 
-function handleFormSubmit(event) {
+/*function handleFormSubmit(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -125,7 +130,7 @@ function handleFormSubmit(event) {
         const form = document.getElementById('loginForm');
         form.appendChild(errorElement);
     }
-}
+}*/
 
 
 // !!!!!!!Tento kód som zmenilа, pretože pri aktualizácii prestal pracovať preklad stránky do slovenčiny!!!!!!!
