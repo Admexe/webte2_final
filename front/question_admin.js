@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let questionId;
     let ws;
     let status;
+    let userProfileVisible = false;
 
+    // Submit code functionality
     document.getElementById('submit-code').addEventListener('click', function () {
         const codeInputs = document.querySelectorAll('.code-input');
         let questionCode = '';
@@ -10,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             questionCode += input.value;
         });
 
-        fetch(`https://node126.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/quest/${questionCode}`)
             .then(response => response.json())
             .then(question => {
                 document.getElementById('question-text').textContent = question.question.text;
@@ -20,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 questionId = question.question.id;
                 status = question.question.status;
 
-                fetch(`https://node126.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
+                fetch(`https://node95.webte.fei.stuba.sk/webte_final/response/question/${questionId}`)
                     .then(response => response.json())
                     .then(responses => {
                         const responseList = document.getElementById('response-list');
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Error fetching responses:', error);
                     });
 
-                ws = new WebSocket(`ws://node126.webte.fei.stuba.sk:8080`);
+                ws = new WebSocket(`wss://node95.webte.fei.stuba.sk/wss`);
 
                 ws.onopen = function () {
                     console.log('WebSocket connection established');
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (status === 1) {
-            fetch('https://node126.webte.fei.stuba.sk/webte_final/response', {
+            fetch('https://node95.webte.fei.stuba.sk/webte_final/response', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -108,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     langButtons.forEach(button => {
         button.addEventListener('click', function () {
             const lang = this.dataset.lang;
-            changeLanguage(lang); // Вызываем функцию изменения языка при нажатии на кнопку
+            changeLanguage(lang); // Call the language change function
         });
     });
 
@@ -146,129 +148,166 @@ document.addEventListener('DOMContentLoaded', function () {
 
         elementsToTranslate.forEach(element => {
             const translationKey = element.dataset.translate;
-            element.textContent = translations[lang][translationKey];
+            if (translations[lang] && translations[lang][translationKey]) {
+                element.textContent = translations[lang][translationKey];
+            } else {
+                console.warn(`Translation key "${translationKey}" not found for language "${lang}"`);
+            }
         });
     }
 
-    changeLanguage('en'); // Установка английского языка по умолчанию
-});
+    changeLanguage('en'); // Set default language to English
 
-
-
-    // Логика для кнопки Logout/Login
-    const logoutBtn = document.getElementById('logout-btn');
-
-    logoutBtn.addEventListener('click', function () {
-        // Проверяем авторизован ли пользователь
-        const isAuthenticated = checkAuthentication();
-        
-        if (isAuthenticated) {
-            logoutUser();
-        } else {
-            window.location.href = 'register.html';
-        }
-    });
-
-    function checkAuthentication() {
-        // Пример проверки, можно заменить на реальную логику
-        // Предположим, что у нас есть флаг в localStorage, который указывает на статус авторизации
-        return localStorage.getItem('isAuthenticated') === 'true';
-    }
-
-    function logoutUser() {
-        // Пример логики логаута, можно заменить на реальную
-        localStorage.removeItem('isAuthenticated');
-        alert('Вы успешно вышли из системы.');
-        // Перенаправление на главную страницу или другую страницу
-        window.location.href = 'index.html';
-    }
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.code-input');
-
-    inputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-            if (input.value.length === 1 && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            } else if (e.key === 'ArrowLeft' && index > 0) {
-                inputs[index - 1].focus();
-            }
-        });
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.code-input');
-
-    inputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-            if (input.value.length === 1 && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            } else if (e.key === 'ArrowLeft' && index > 0) {
-                inputs[index - 1].focus();
-            }
-        });
-    });
-
-   // Функция для создания и добавления панели с именем и логином пользователя
-function showUserProfile() {
-    // Создаем элементы для имени и логина пользователя
-    var userProfilePanel = document.createElement('div');
-    var userName = document.createTextNode('Name: username'); // Замените на имя пользователя
-    var userLogin = document.createTextNode('Login: user_id'); // Замените на логин пользователя
+    // User profile and logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        const url = 'https://node95.webte.fei.stuba.sk/webte_final/auth/logout';
     
-    // Добавляем имя и логин в панель
-    userProfilePanel.appendChild(userName);
-    userProfilePanel.appendChild(document.createElement('br')); // Добавляем перенос строки
-    userProfilePanel.appendChild(userLogin);
-    
-    // Стилизуем панель
-    userProfilePanel.style.position = 'fixed';
-    userProfilePanel.style.top = '50px';
-    userProfilePanel.style.right = '10px';
-    userProfilePanel.style.backgroundColor = '#20232a';
-    userProfilePanel.style.padding = '20px';
-    userProfilePanel.style.border = '1px solid #ccc';
-    userProfilePanel.style.color = '#c5e9f3';
-    // Добавляем панель на страницу
-    document.body.appendChild(userProfilePanel);
-}
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Logout successful!');
+                window.location.href = 'index.html'; // Adjust the URL as needed
+            } else {
+                alert('Logout failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during logout:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
 
-// Функция для удаления панели с именем и логином пользователя
-function hideUserProfile() {
-    var userProfilePanel = document.getElementById('user-profile-panel');
-    if (userProfilePanel) {
-        userProfilePanel.parentNode.removeChild(userProfilePanel);
-    }
-}
+    // Define the showUserProfile function
+    function showUserProfile(name, userId) {
+        let userProfilePanel = document.getElementById('user-profile-panel');
 
-    // Найти кнопку "Личный кабинет"
-    const userProfileButton = document.getElementById('user-profile');
-
-    // Добавить обработчик события на нажатие кнопки "Личный кабинет"
-    userProfileButton.addEventListener('click', function () {
-        // Показываем или скрываем панель профиля в зависимости от ее текущего состояния
-        const userProfilePanel = document.getElementById('user-profile-panel');
         if (!userProfilePanel) {
-            // Если панель не существует, показываем ее
-            showUserProfile();
+            userProfilePanel = document.createElement('div');
+            userProfilePanel.id = 'user-profile-panel';
+
+            const userName = document.createTextNode(`Name: ${name}`);
+            const userLogin = document.createTextNode(`Login: ${userId}`);
+
+            userProfilePanel.appendChild(userName);
+            userProfilePanel.appendChild(document.createElement('br'));
+            userProfilePanel.appendChild(userLogin);
+
+            userProfilePanel.style.position = 'fixed';
+            userProfilePanel.style.top = '50px';
+            userProfilePanel.style.right = '10px';
+            userProfilePanel.style.backgroundColor = '#20232a';
+            userProfilePanel.style.padding = '20px';
+            userProfilePanel.style.border = '1px solid #ccc';
+            userProfilePanel.style.color = '#c5e9f3';
+
+            document.body.appendChild(userProfilePanel);
+        }
+
+        userProfilePanel.style.display = userProfilePanel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Fetch user ID from session and user info
+    fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const userId = data.user_id;
+            fetchUserInfo(userId);
         } else {
-            // Если панель уже существует, скрываем ее
-            hideUserProfile();
+            alert('Error fetching user ID: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching user ID:', error);
+        alert('An error occurred. Please try again.');
+    });
+
+    function fetchUserInfo(userId) {
+        fetch(`https://node95.webte.fei.stuba.sk/webte_final/users/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                showUserProfile(data.name, data.user_id);
+            } else {
+                alert('Error fetching user info.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user info:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+
+    // Add event listener for the user profile button
+    const userProfileButton = document.getElementById('user-profile');
+    userProfileButton.addEventListener('click', function () {
+        const userProfilePanel = document.getElementById('user-profile-panel');
+        if (userProfilePanel && userProfilePanel.style.display === 'block') {
+            userProfilePanel.style.display = 'none';
+        } else {
+            fetch('https://node95.webte.fei.stuba.sk/webte_final/controllers/get_user_id.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    fetchUserInfo(data.user_id);
+                } else {
+                    alert('Error fetching user ID: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user ID:', error);
+                alert('An error occurred. Please try again.');
+            });
         }
     });
-});
 
+    // Input navigation for code inputs
+    const inputs = document.querySelectorAll('.code-input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (input.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            } else if (e.key === 'ArrowLeft' && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+
+    // Function to hide user profile
+    function hideUserProfile() {
+        const userProfilePanel = document.getElementById('user-profile-panel');
+        if (userProfilePanel) {
+            userProfilePanel.style.display = 'none';
+        }
+    }
+});

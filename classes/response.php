@@ -60,5 +60,30 @@ class ResponseHandler {
             return ['status' => 'error', 'message' => 'No responses found for the question.'];
         }
     }
+
+    public function upvoteResponse($response_id) {
+        // Check if response with the given ID exists
+        $stmt = $this->pdo->prepare("SELECT * FROM Responses WHERE id = :response_id");
+        $stmt->execute(['response_id' => $response_id]);
+        
+        $response = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($response) {
+            // If response exists, increment its votes by 1
+            $update_stmt = $this->pdo->prepare("UPDATE Responses SET votes = votes + 1 WHERE id = :response_id");
+            $update_stmt->execute(['response_id' => $response_id]);
+            
+            // Get the updated votes count
+            $stmt = $this->pdo->prepare("SELECT votes FROM Responses WHERE id = :response_id");
+            $stmt->execute(['response_id' => $response_id]);
+            $updated_votes = $stmt->fetchColumn();
+            
+            return ['status' => 'success', 'message' => 'Votes incremented successfully.', 'votes' => $updated_votes];
+        } else {
+            return ['status' => 'error', 'message' => 'Response not found.'];
+        }
+    }
+    
+    
 }
 ?>

@@ -129,7 +129,19 @@ switch ($method) {
             } else {
                 http_response_code(500); // Internal Server Error
             }
-        } else {
+        } else if(count($pathParts) === 5 && $pathParts[3] === 'increment') {
+            $response_id = $pathParts[4];
+            
+            // Increment votes for an existing response
+            $result = $responseHandler->upvoteResponse($response_id);
+            if ($result['status'] === 'success') {
+                http_response_code(200); // OK
+                header('Content-Type: application/json');
+                echo json_encode($result); // Return updated response
+            } else {
+                http_response_code(404); // Not Found
+            }
+        }else {
             http_response_code(400); // Bad Request
         }
         break;

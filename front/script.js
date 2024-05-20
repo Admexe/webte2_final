@@ -88,7 +88,11 @@ function login(username, password) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            window.location.href = 'question.html';
+            if (data.role === 1) {
+                window.location.href = 'question_admin.html';
+            } else {
+                window.location.href = 'mainPage.html';
+            }
         } else {
             console.error('Login failed:', data.message);
         }
